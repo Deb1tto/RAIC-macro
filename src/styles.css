@@ -129,6 +129,80 @@ button {
   padding: 30px;
 }
 
+.unit-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  padding: 30px;
+}
+
+.unit-card {
+  min-height: 280px;
+  border: 1px solid rgba(207, 166, 106, 0.24);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 20px 34px rgba(31, 42, 55, 0.08);
+  padding: 26px;
+}
+
+.clickable-card {
+  cursor: pointer;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease, background 160ms ease;
+}
+
+.clickable-card:hover,
+.clickable-card:focus-visible {
+  border-color: rgba(191, 91, 44, 0.5);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 24px 38px rgba(31, 42, 55, 0.12);
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.unit-card h2 {
+  margin: 28px 0 12px;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.45rem, 2.6vw, 2.2rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.unit-card p,
+.unit-card small {
+  display: block;
+  color: var(--muted);
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.unit-card small {
+  margin-top: 14px;
+}
+
+.unit-card button {
+  margin-top: 24px;
+  border: 0;
+  background: transparent;
+  color: #76512c;
+  font-weight: 900;
+}
+
+.status-pill {
+  display: inline-flex;
+  margin-left: 8px;
+  border-radius: 999px;
+  background: rgba(76, 183, 171, 0.14);
+  padding: 8px 12px;
+  color: #1f6a5c;
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+.unit-lab-directory {
+  min-height: 0;
+}
+
 .lab-card {
   min-height: 250px;
   border: 1px solid rgba(207, 166, 106, 0.24);
@@ -183,6 +257,16 @@ button {
   border-radius: 999px;
   background: rgba(31, 42, 55, 0.06);
   padding: 10px 13px;
+}
+
+.ghost-button {
+  margin-right: 10px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 8px 12px;
+  color: white;
+  font-weight: 900;
 }
 
 .hero h1 {
@@ -376,7 +460,10 @@ button {
 }
 
 .control input {
+  width: 100%;
   accent-color: var(--accent);
+  cursor: pointer;
+  touch-action: pan-y;
 }
 
 .control strong {
@@ -562,6 +649,64 @@ button {
   stroke-linejoin: round;
 }
 
+.model-line,
+.reference-line,
+.lras-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.model-line {
+  stroke: var(--accent);
+  stroke-width: 5;
+}
+
+.model-line.alt {
+  stroke: var(--accent-2);
+}
+
+.reference-line {
+  stroke: rgba(31, 42, 55, 0.22);
+  stroke-width: 3;
+  stroke-dasharray: 8 8;
+}
+
+.lras-line {
+  stroke: var(--accent-4);
+  stroke-width: 4;
+  stroke-dasharray: 9 7;
+}
+
+.equilibrium-dot,
+.drag-dot {
+  fill: var(--accent-4);
+  stroke: white;
+  stroke-width: 3;
+}
+
+.draggable-point {
+  cursor: grab;
+  touch-action: none;
+}
+
+.draggable-point.is-dragging {
+  cursor: grabbing;
+}
+
+.drag-hit {
+  fill: transparent;
+  stroke: transparent;
+}
+
+.draggable-point text,
+.chart-title {
+  fill: var(--ink);
+  font-size: 14px;
+  font-weight: 900;
+  pointer-events: none;
+}
+
 .cycle-stage {
   cursor: pointer;
 }
@@ -599,6 +744,133 @@ button {
   margin: 8px 0 0;
   color: var(--muted);
   line-height: 1.7;
+}
+
+.allocation-chart {
+  display: flex;
+  min-height: 160px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.allocation-segment {
+  display: flex;
+  min-width: 74px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px;
+  color: white;
+  transition: width 160ms ease;
+}
+
+.allocation-segment.primary {
+  background: linear-gradient(135deg, #d07f46, #bf5b2c);
+}
+
+.allocation-segment.secondary {
+  background: linear-gradient(135deg, #4cb7ab, #4f75b0);
+}
+
+.allocation-segment strong {
+  font-size: 1.7rem;
+}
+
+.allocation-segment span {
+  margin-top: 8px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.policy-flow,
+.flow-diagram {
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.72);
+  padding: 16px;
+}
+
+.policy-flow {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.policy-flow span {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.policy-flow strong {
+  color: var(--accent);
+  font-size: 1.4rem;
+}
+
+.flow-track {
+  height: 18px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(31, 42, 55, 0.08);
+}
+
+.flow-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #4cb7ab, #8f85df);
+}
+
+.flow-fill.is-left {
+  background: linear-gradient(90deg, #c64861, #d07f46);
+}
+
+.flow-diagram {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.flow-node {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.72);
+  padding: 12px;
+}
+
+.flow-node span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.flow-node strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--accent);
+  font-size: 1.2rem;
+}
+
+.flow-node-bar {
+  height: 10px;
+  overflow: hidden;
+  margin-top: 10px;
+  border-radius: 999px;
+  background: rgba(31, 42, 55, 0.08);
+}
+
+.flow-node-bar div {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #d07f46, #4cb7ab);
+}
+
+.flow-arrow {
+  color: var(--accent);
+  font-size: 1.4rem;
+  font-weight: 900;
 }
 
 .cycle-overview-grid {
@@ -710,6 +982,10 @@ button {
     grid-template-columns: 300px minmax(0, 1fr);
   }
 
+  .unit-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .cycle-overview-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -772,6 +1048,11 @@ button {
     padding: 16px;
   }
 
+  .unit-card-grid {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+
   .controls-panel {
     position: static;
   }
@@ -786,5 +1067,14 @@ button {
 
   .feedback-card {
     grid-template-columns: 1fr;
+  }
+
+  .flow-diagram {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-arrow {
+    transform: rotate(90deg);
+    text-align: center;
   }
 }

@@ -2,7 +2,33 @@
 
 ## Project Scope
 
-This folder contains a lightweight Macroeconomics Unit 1 MVP for an interactive economics course site. It is intentionally built as a local, static prototype because the workspace did not contain an existing application repository or dependency manifest.
+This folder contains a lightweight AP Macroeconomics MVP for an interactive economics course site. It is intentionally built as a local, static prototype because the workspace did not contain an existing application repository or dependency manifest.
+
+## Current Planning Direction
+
+- Build toward a full AP Macroeconomics course map with 6 units:
+  - Unit 1: Basic Economic Concepts
+  - Unit 2: Economic Indicators and the Business Cycle
+  - Unit 3: National Income and Price Determination
+  - Unit 4: Financial Sector
+  - Unit 5: Long-Run Consequences of Stabilization Policies
+  - Unit 6: Open Economy: International Trade and Finance
+- Keep each unit organized as a small set of interactive labs, not many tiny topic pages.
+- Unit 4 includes these labs:
+  - Bank Balance Sheet
+  - Money Multiplier
+  - Reserve Market
+  - Money Market
+  - Loanable Funds
+  - Monetary Policy
+
+## Implementation Progress
+
+- Course shell: complete. The app uses a 6-unit course map, unit pages, and lab pages.
+- Full lab data: complete. All planned placeholders have been replaced with first-version interactive labs.
+- Interactions: complete. Unit and lab cards are whole-card clickable with keyboard entry; sliders update locally; PPC point drag remains smooth.
+- Visual QA: limited. CSS and responsive states are implemented; automated browser screenshot QA is blocked because the local Playwright browser binary is not installed.
+- Verification: complete. `npm run check` passes, and the static server returns HTTP 200 on the local port.
 
 ## Development Rules
 
@@ -16,10 +42,10 @@ This folder contains a lightweight Macroeconomics Unit 1 MVP for an interactive 
 - Prefer reusable lesson components over one-off pages.
 - Keep charts as hand-authored SVG rather than adding chart libraries.
 - Keep the UI calm, classroom-oriented, and close to the existing microeconomics visual style.
+- Sliders should drag smoothly and update the visual continuously. Avoid re-rendering the control being dragged on every `input` event.
 
 ## Runtime
 
 Open `index.html` directly in a browser, or serve the folder with any static server.
 
 No package install is required for the current prototype.
-

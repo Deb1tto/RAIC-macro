@@ -1,4 +1,16 @@
-export type ComponentType = "formula" | "composition" | "cycle";
+export type ComponentType =
+  | "formula"
+  | "composition"
+  | "cycle"
+  | "allocation"
+  | "ppc"
+  | "comparative"
+  | "adas"
+  | "fiscal"
+  | "market"
+  | "flow"
+  | "phillips"
+  | "forex";
 
 export type FormulaType =
   | "nominal-real-gdp"
@@ -16,6 +28,19 @@ export interface ControlConfig {
   max: number;
   step?: number;
   unit?: string;
+}
+
+export interface DraggablePointConfig {
+  id: string;
+  xKey: string;
+  yKey: string;
+  bounds: {
+    minX: number;
+    maxX: number;
+    minY: number;
+    maxY: number;
+  };
+  constraint?: "free" | "frontier" | "curve";
 }
 
 export interface CompositionPart extends ControlConfig {
@@ -42,8 +67,16 @@ export interface LessonConfig {
   example?: string;
   formula?: string;
   formulaType?: FormulaType;
+  marketType?: "reserve" | "money" | "loanable" | "forex";
+  flowType?: "bank" | "multiplier" | "bop" | "capital";
   controls?: ControlConfig[];
   parts?: CompositionPart[];
+  draggablePoints?: DraggablePointConfig[];
+  allocationLabels?: {
+    left: string;
+    right: string;
+    total: string;
+  };
 }
 
 export interface LabConfig {
@@ -55,4 +88,15 @@ export interface LabConfig {
   accent?: string;
   steps: LessonConfig[];
   stages?: CycleStage[];
+}
+
+export interface UnitConfig {
+  id: string;
+  label: string;
+  title: string;
+  subtitle: string;
+  weight: string;
+  focus: string;
+  accent?: string;
+  labs: LabConfig[];
 }

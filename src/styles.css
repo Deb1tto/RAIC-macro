@@ -746,6 +746,109 @@ button {
   line-height: 1.7;
 }
 
+.matching-board {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 44px;
+  margin-top: 18px;
+}
+
+.matching-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.matching-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.matching-line.is-correct {
+  stroke: #2f8f74;
+}
+
+.matching-line.is-wrong {
+  stroke: #c64861;
+  stroke-dasharray: 7 7;
+}
+
+.matching-column {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 12px;
+}
+
+.matching-heading {
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.match-card,
+.match-target {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.82);
+  padding: 14px;
+  color: var(--ink);
+  text-align: left;
+}
+
+.match-card {
+  cursor: grab;
+}
+
+.match-card:active {
+  cursor: grabbing;
+}
+
+.match-card span,
+.match-target strong,
+.match-target span,
+.match-card small {
+  display: block;
+}
+
+.match-card span,
+.match-target strong {
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.match-card small,
+.match-target span {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.match-card.is-selected,
+.match-target.is-hovered {
+  border-color: var(--accent);
+  background: rgba(191, 91, 44, 0.1);
+}
+
+.match-card.is-correct {
+  border-color: rgba(47, 143, 116, 0.5);
+  background: rgba(76, 183, 171, 0.12);
+}
+
+.match-card.is-wrong {
+  border-color: rgba(198, 72, 97, 0.5);
+  background: rgba(198, 72, 97, 0.1);
+}
+
 .allocation-chart {
   display: flex;
   min-height: 160px;
@@ -822,6 +925,40 @@ button {
 
 .flow-fill.is-left {
   background: linear-gradient(90deg, #c64861, #d07f46);
+}
+
+.multiplier-compare {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.multiplier-compare article {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+  padding: 16px;
+}
+
+.multiplier-compare span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 900;
+}
+
+.multiplier-compare strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--accent);
+  font-size: 1.8rem;
+}
+
+.multiplier-compare p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
 }
 
 .flow-diagram {
@@ -1067,6 +1204,15 @@ button {
 
   .feedback-card {
     grid-template-columns: 1fr;
+  }
+
+  .matching-board,
+  .multiplier-compare {
+    grid-template-columns: 1fr;
+  }
+
+  .matching-lines {
+    display: none;
   }
 
   .flow-diagram {

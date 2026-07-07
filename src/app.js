@@ -8,13 +8,22 @@ const courseUnits = [
     focus: "PPC / Comparative Advantage",
     accent: "from-output",
     labs: [
-      allocationLab("scarcity-choice", "Unit 1", "Scarcity and Choice", "稀缺性与选择", "通过资源分配观察稀缺性、选择和机会成本。", {
-        leftLabel: "Food 食品",
-        rightLabel: "Shelter 住房",
-        totalLabel: "Available Resources 可用资源",
-        defaultLeft: 45,
-        defaultTotal: 100,
-        explanation: "资源有限时，多生产一种产品通常意味着少生产另一种产品。机会成本就是为了得到一个选择而放弃的次优选择。"
+      classificationLab("scarcity-choice", "Unit 1", "Scarcity and Choice", "稀缺性与选择", "把例子拖到正确概念，区分稀缺性、选择和机会成本。", {
+        formula: "Scarcity -> Choice -> Opportunity Cost",
+        explanation: "基础经济概念更适合先做分类判断：先识别资源有限，再识别做出的选择，最后说清楚放弃了什么。",
+        categories: [
+          { id: "scarcity", label: "Scarcity 稀缺性", hint: "资源不足以满足所有欲望" },
+          { id: "choice", label: "Choice 选择", hint: "必须在选项中做决定" },
+          { id: "opportunity-cost", label: "Opportunity Cost 机会成本", hint: "被放弃的次优选择" }
+        ],
+        items: [
+          { id: "limited-time", label: "A student has only two hours after school", correct: "scarcity" },
+          { id: "study-or-work", label: "The student decides to study instead of working", correct: "choice" },
+          { id: "lost-wage", label: "The wage the student gives up by studying", correct: "opportunity-cost" },
+          { id: "land-water", label: "A town has limited land and water", correct: "scarcity" },
+          { id: "build-park", label: "The town builds a park instead of a parking lot", correct: "choice" },
+          { id: "parking-lot", label: "The forgone parking lot", correct: "opportunity-cost" }
+        ]
       }),
       {
         id: "ppc-opportunity-cost",
@@ -84,13 +93,22 @@ const courseUnits = [
           }
         ]
       },
-      allocationLab("economic-systems", "Unit 1", "Economic Systems", "经济制度", "对比市场、命令和混合经济如何配置资源。", {
-        leftLabel: "Market Signals 市场信号",
-        rightLabel: "Government Direction 政府指令",
-        totalLabel: "Decision Weight 决策权重",
-        defaultLeft: 65,
-        defaultTotal: 100,
-        explanation: "市场经济更多依赖价格和利润信号配置资源；命令经济更多依赖政府计划；混合经济同时使用两种机制。"
+      classificationLab("economic-systems", "Unit 1", "Economic Systems", "经济制度", "拖拽连线，把资源配置方式归入市场、命令或混合经济。", {
+        formula: "Economic systems differ by who answers what, how, and for whom to produce.",
+        explanation: "经济制度不需要硬画成图形；更重要的是判断资源配置由价格信号、政府计划，还是两者共同决定。",
+        categories: [
+          { id: "market", label: "Market 市场经济", hint: "价格、利润、竞争主导" },
+          { id: "command", label: "Command 命令经济", hint: "政府计划和指令主导" },
+          { id: "mixed", label: "Mixed 混合经济", hint: "市场与政府共同发挥作用" }
+        ],
+        items: [
+          { id: "price-signal", label: "Firms expand output because price rises", correct: "market" },
+          { id: "central-plan", label: "A planning agency sets production targets", correct: "command" },
+          { id: "public-school", label: "Private firms operate, but public schools are funded by government", correct: "mixed" },
+          { id: "profit-entry", label: "Profit attracts new producers into a market", correct: "market" },
+          { id: "ration-quota", label: "The state assigns quotas and rations goods", correct: "command" },
+          { id: "tax-subsidy", label: "Markets set prices, while government uses taxes and subsidies", correct: "mixed" }
+        ]
       })
     ]
   },
@@ -583,9 +601,35 @@ const state = {
   labId: courseUnits[0].labs[0].id,
   stepId: courseUnits[0].labs[0].steps[0].id,
   values: {},
+  matches: {},
+  selectedMatchItem: null,
   selectedStage: "expansion",
   dragFrame: null
 };
+
+function classificationLab(id, unit, title, subtitle, description, options) {
+  return {
+    id,
+    unit,
+    title,
+    subtitle,
+    description,
+    accent: "from-output",
+    steps: [
+      {
+        id: `${id}-classification`,
+        label: "Step 1",
+        title,
+        description,
+        componentType: "classification",
+        formula: options.formula,
+        explanation: options.explanation,
+        categories: options.categories,
+        items: options.items
+      }
+    ]
+  };
+}
 
 function allocationLab(id, unit, title, subtitle, description, options) {
   return {
@@ -733,8 +777,12 @@ function controlsFor(step) {
 
 function resetValues(step = currentStep()) {
   state.values = {};
+  state.selectedMatchItem = null;
   for (const control of controlsFor(step)) {
     state.values[control.key] = control.defaultValue;
+  }
+  if (step.componentType === "classification") {
+    state.matches[step.id] = {};
   }
   if (step.componentType === "cycle") {
     state.selectedStage = currentLab().stages?.[0]?.key ?? "expansion";
@@ -1061,6 +1109,73 @@ function renderCompositionBlocks(step) {
   `;
 }
 
+function matchesForStep(step) {
+  if (!state.matches[step.id]) state.matches[step.id] = {};
+  return state.matches[step.id];
+}
+
+function classificationSummary(step) {
+  const matches = matchesForStep(step);
+  const total = step.items?.length ?? 0;
+  const answered = Object.keys(matches).length;
+  const correct = (step.items ?? []).filter((item) => matches[item.id] === item.correct).length;
+  return {
+    total: `${correct}/${total} correct`,
+    metrics: [["Answered", answered], ["Correct", correct], ["Remaining", Math.max(total - answered, 0)]],
+    feedback:
+      answered === 0
+        ? "把左侧例子拖到右侧概念框，或先点一个例子再点一个分类。"
+        : correct === total
+          ? "全部分类正确。这个 Lab 的目标是先识别概念，而不是把概念硬画成图。"
+          : `已完成 ${answered} 个分类，其中 ${correct} 个正确。继续调整连线直到分类全部正确。`
+  };
+}
+
+function renderClassification(step) {
+  const matches = matchesForStep(step);
+  const categories = step.categories ?? [];
+  const items = step.items ?? [];
+  const summary = classificationSummary(step);
+  return `
+    <section class="panel visual-panel">
+      <div class="panel-heading">
+        <h2>${step.title}</h2>
+        <p>${step.description}</p>
+      </div>
+      <div class="formula-display">${step.formula}</div>
+      <div class="matching-board" data-matching-board aria-label="${step.title} matching board">
+        <svg class="matching-lines" data-matching-lines></svg>
+        <div class="matching-column">
+          <div class="matching-heading">Examples</div>
+          ${items.map((item) => {
+            const assigned = matches[item.id];
+            const isCorrect = assigned === item.correct;
+            return `
+              <button class="match-card ${state.selectedMatchItem === item.id ? "is-selected" : ""} ${assigned ? isCorrect ? "is-correct" : "is-wrong" : ""}"
+                draggable="true"
+                data-match-item="${item.id}"
+                data-correct-category="${item.correct}">
+                <span>${item.label}</span>
+                ${assigned ? `<small>${isCorrect ? "Correct" : "Try again"}</small>` : ""}
+              </button>
+            `;
+          }).join("")}
+        </div>
+        <div class="matching-column">
+          <div class="matching-heading">Categories</div>
+          ${categories.map((category) => `
+            <button class="match-target" data-match-category="${category.id}">
+              <strong>${category.label}</strong>
+              <span>${category.hint}</span>
+            </button>
+          `).join("")}
+        </div>
+      </div>
+      ${renderMetrics(summary.metrics)}
+    </section>
+  `;
+}
+
 function allocationSummary(step) {
   const left = value("leftShare");
   const total = value("totalResources");
@@ -1281,6 +1396,38 @@ function fiscalSummary() {
 function renderFiscal(step) {
   const summary = fiscalSummary();
   const width = clamp(Math.abs(summary.metrics[2][1]), 5, 120);
+  if (step.id === "multiplier-size") {
+    const spending = summary.metrics[0][1];
+    const tax = summary.metrics[1][1];
+    const adChange = summary.metrics[2][1];
+    return `
+      <section class="panel visual-panel">
+        <div class="panel-heading">
+          <h2>${step.title}</h2>
+          <p>${step.description}</p>
+        </div>
+        <div class="formula-display">${step.formula}</div>
+        <div class="multiplier-compare">
+          <article>
+            <span>Spending Multiplier</span>
+            <strong>${formatNumber(spending)}</strong>
+            <p>政府支出直接进入 AD，乘数为正。</p>
+          </article>
+          <article>
+            <span>Tax Multiplier</span>
+            <strong>${formatNumber(tax)}</strong>
+            <p>税收先影响可支配收入，乘数为负且绝对值较小。</p>
+          </article>
+          <article>
+            <span>Estimated AD Change</span>
+            <strong>${formatNumber(adChange)}</strong>
+            <p>${adChange >= 0 ? "净效果推动 AD 右移。" : "净效果推动 AD 左移。"}</p>
+          </article>
+        </div>
+        ${renderMetrics(summary.metrics)}
+      </section>
+    `;
+  }
   return `
     <section class="panel visual-panel">
       <div class="panel-heading">
@@ -1505,6 +1652,7 @@ function feedbackForStep(lab, step) {
     const stage = (lab.stages ?? []).find((item) => item.key === state.selectedStage) ?? lab.stages?.[0];
     return { value: stage?.label ?? "", text: step.id === "policy-response" ? stage?.policy ?? "" : stage?.explanation ?? "" };
   }
+  if (step.componentType === "classification") return classificationSummary(step);
   if (step.componentType === "allocation") return allocationSummary(step);
   if (step.componentType === "ppc") return ppcSummary(step);
   if (step.componentType === "comparative") return comparativeSummary();
@@ -1544,6 +1692,7 @@ function renderExplanation(step) {
 function renderInteractive(lab, step) {
   if (step.componentType === "composition") return renderCompositionBlocks(step);
   if (step.componentType === "cycle") return renderCycleChart(lab, step);
+  if (step.componentType === "classification") return renderClassification(step);
   if (step.componentType === "allocation") return renderAllocation(step);
   if (step.componentType === "ppc") return renderPpcChart(step);
   if (step.componentType === "comparative") return renderComparative(step);
@@ -1567,7 +1716,9 @@ function renderMainColumnOnly() {
   if (mainColumn) {
     mainColumn.innerHTML = renderMainColumn(currentLab(), currentStep());
     bindStageEvents();
+    bindClassificationEvents();
     bindDraggableSvgPoints();
+    drawMatchingLines();
   }
 }
 
@@ -1653,6 +1804,80 @@ function bindStageEvents() {
     button.addEventListener("click", () => {
       state.selectedStage = button.dataset.stage;
       renderMainColumnOnly();
+    });
+  }
+}
+
+function assignMatch(itemId, categoryId) {
+  const step = currentStep();
+  const matches = matchesForStep(step);
+  matches[itemId] = categoryId;
+  state.selectedMatchItem = null;
+  renderMainColumnOnly();
+}
+
+function drawMatchingLines() {
+  const board = document.querySelector("[data-matching-board]");
+  const svg = document.querySelector("[data-matching-lines]");
+  if (!board || !svg) return;
+
+  const step = currentStep();
+  if (step.componentType !== "classification") return;
+
+  const boardRect = board.getBoundingClientRect();
+  svg.setAttribute("viewBox", `0 0 ${boardRect.width} ${boardRect.height}`);
+  svg.innerHTML = "";
+
+  const matches = matchesForStep(step);
+  for (const [itemId, categoryId] of Object.entries(matches)) {
+    const item = board.querySelector(`[data-match-item="${itemId}"]`);
+    const target = board.querySelector(`[data-match-category="${categoryId}"]`);
+    if (!item || !target) continue;
+
+    const itemRect = item.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+    const x1 = itemRect.right - boardRect.left;
+    const y1 = itemRect.top + itemRect.height / 2 - boardRect.top;
+    const x2 = targetRect.left - boardRect.left;
+    const y2 = targetRect.top + targetRect.height / 2 - boardRect.top;
+    const correct = item.dataset.correctCategory === categoryId;
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    const mid = (x1 + x2) / 2;
+    line.setAttribute("d", `M ${x1} ${y1} C ${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}`);
+    line.setAttribute("class", `matching-line ${correct ? "is-correct" : "is-wrong"}`);
+    svg.appendChild(line);
+  }
+}
+
+function bindClassificationEvents() {
+  for (const item of document.querySelectorAll("[data-match-item]")) {
+    item.addEventListener("click", () => {
+      state.selectedMatchItem = state.selectedMatchItem === item.dataset.matchItem ? null : item.dataset.matchItem;
+      renderMainColumnOnly();
+    });
+    item.addEventListener("dragstart", (event) => {
+      event.dataTransfer.setData("text/plain", item.dataset.matchItem);
+      event.dataTransfer.effectAllowed = "move";
+    });
+  }
+
+  for (const target of document.querySelectorAll("[data-match-category]")) {
+    target.addEventListener("click", () => {
+      if (state.selectedMatchItem) assignMatch(state.selectedMatchItem, target.dataset.matchCategory);
+    });
+    target.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      event.dataTransfer.dropEffect = "move";
+      target.classList.add("is-hovered");
+    });
+    target.addEventListener("dragleave", () => {
+      target.classList.remove("is-hovered");
+    });
+    target.addEventListener("drop", (event) => {
+      event.preventDefault();
+      target.classList.remove("is-hovered");
+      const itemId = event.dataTransfer.getData("text/plain");
+      if (itemId) assignMatch(itemId, target.dataset.matchCategory);
     });
   }
 }
@@ -1752,7 +1977,9 @@ function bindEvents() {
     });
   }
   bindStageEvents();
+  bindClassificationEvents();
   bindDraggableSvgPoints();
+  drawMatchingLines();
   document.querySelector("[data-reset]")?.addEventListener("click", () => {
     resetValues(currentStep());
     renderApp();
@@ -1761,3 +1988,6 @@ function bindEvents() {
 
 resetValues(currentStep());
 renderApp();
+window.addEventListener("resize", () => {
+  window.requestAnimationFrame(drawMatchingLines);
+});

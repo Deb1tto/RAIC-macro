@@ -2,6 +2,7 @@ export type ComponentType =
   | "formula"
   | "composition"
   | "cycle"
+  | "classification"
   | "allocation"
   | "ppc"
   | "comparative"
@@ -43,6 +44,18 @@ export interface DraggablePointConfig {
   constraint?: "free" | "frontier" | "curve";
 }
 
+export interface ClassificationCategory {
+  id: string;
+  label: string;
+  hint: string;
+}
+
+export interface ClassificationItem {
+  id: string;
+  label: string;
+  correct: string;
+}
+
 export interface CompositionPart extends ControlConfig {
   color?: string;
   baseValue?: number;
@@ -72,6 +85,8 @@ export interface LessonConfig {
   controls?: ControlConfig[];
   parts?: CompositionPart[];
   draggablePoints?: DraggablePointConfig[];
+  categories?: ClassificationCategory[];
+  items?: ClassificationItem[];
   allocationLabels?: {
     left: string;
     right: string;

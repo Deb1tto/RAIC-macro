@@ -26,8 +26,8 @@ This folder contains a lightweight AP Macroeconomics MVP for an interactive econ
 
 - Course shell: complete. The app uses a 6-unit course map, unit pages, and lab pages.
 - Full lab data: complete. All planned placeholders have been replaced with first-version interactive labs.
-- Interactions: complete. Unit and lab cards are whole-card clickable with keyboard entry; sliders update locally; PPC point drag remains smooth.
-- Content alignment: complete. Unit 1 scarcity/economic systems now use classification and drag-to-connect interactions; multiplier now uses a comparison format.
+- Interactions: complete. Unit and lab cards are whole-card clickable with keyboard entry; homepage units remember accordion state; sliders update locally; PPC point drag remains smooth; formula and policy sections can be toggled.
+- Content alignment: complete. Unit 1 scarcity/economic systems use colored classification and drag-to-connect interactions; Unit 2 GDP now uses the same concept matching format; PPC, comparative advantage, CPI, labor, business cycle, BOP, and forex have been adjusted against teacher feedback; forex determinants link to the market shift; multiplier uses a comparison format.
 - Visual QA: limited. CSS and responsive states are implemented; automated browser screenshot QA is blocked because the local Playwright browser binary is not installed.
 - Verification: complete. `npm run check` passes, and the static server returns HTTP 200 on the local port.
 

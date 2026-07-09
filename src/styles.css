@@ -188,6 +188,98 @@ button {
   font-weight: 900;
 }
 
+.unit-accordion-list {
+  display: grid;
+  gap: 16px;
+  padding: 30px;
+}
+
+.unit-accordion {
+  border: 1px solid rgba(207, 166, 106, 0.24);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: 0 18px 30px rgba(31, 42, 55, 0.07);
+  overflow: hidden;
+}
+
+.unit-accordion summary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  padding: 20px 22px;
+  list-style: none;
+}
+
+.unit-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.unit-accordion summary::after {
+  content: "+";
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(191, 91, 44, 0.12);
+  color: #8d4829;
+  font-weight: 900;
+  text-align: center;
+  line-height: 28px;
+}
+
+.unit-accordion[open] summary::after {
+  content: "-";
+}
+
+.unit-accordion summary strong {
+  display: block;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.25rem;
+}
+
+.unit-accordion summary small {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.unit-accordion summary em {
+  margin-right: 42px;
+  color: #1f6a5c;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.home-lab-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  border-top: 1px solid var(--line);
+  padding: 18px;
+}
+
+.home-lab-grid .lab-card {
+  min-height: 190px;
+  padding: 20px;
+}
+
+.home-lab-grid .lab-card h2 {
+  margin: 22px 0 12px;
+  font-size: 1.35rem;
+}
+
+.home-lab-grid .lab-card p {
+  min-height: 0;
+  font-size: 0.94rem;
+}
+
 .status-pill {
   display: inline-flex;
   margin-left: 8px;
@@ -558,6 +650,53 @@ button {
   font-size: 1.3rem;
 }
 
+.ap-answer-strip,
+.formula-breakdown {
+  margin-top: 16px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+  padding: 14px 16px;
+}
+
+.ap-answer-strip span,
+.formula-breakdown span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.ap-answer-strip strong,
+.formula-breakdown strong {
+  display: block;
+  margin-top: 6px;
+  color: var(--ink);
+  line-height: 1.55;
+}
+
+.inline-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+  border: 1px solid rgba(191, 91, 44, 0.22);
+  border-radius: 999px;
+  background: rgba(191, 91, 44, 0.08);
+  padding: 9px 14px;
+  color: #7a3e22;
+  font-weight: 900;
+}
+
+.inline-toggle:hover,
+.inline-toggle:focus-visible,
+.inline-toggle.is-active {
+  border-color: rgba(191, 91, 44, 0.44);
+  background: rgba(191, 91, 44, 0.16);
+  outline: none;
+}
+
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -765,13 +904,13 @@ button {
 
 .matching-line {
   fill: none;
-  stroke: var(--accent);
+  stroke: var(--match-color, var(--accent));
   stroke-width: 3;
   stroke-linecap: round;
 }
 
 .matching-line.is-correct {
-  stroke: #2f8f74;
+  stroke: var(--match-color, #2f8f74);
 }
 
 .matching-line.is-wrong {
@@ -797,6 +936,7 @@ button {
 .match-card,
 .match-target {
   border: 1px solid var(--line);
+  border-left: 6px solid var(--match-color, var(--line));
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.82);
   padding: 14px;
@@ -835,13 +975,13 @@ button {
 
 .match-card.is-selected,
 .match-target.is-hovered {
-  border-color: var(--accent);
-  background: rgba(191, 91, 44, 0.1);
+  border-color: var(--match-color, var(--accent));
+  background: color-mix(in srgb, var(--match-color, #bf5b2c) 12%, white);
 }
 
 .match-card.is-correct {
-  border-color: rgba(47, 143, 116, 0.5);
-  background: rgba(76, 183, 171, 0.12);
+  border-color: var(--match-color, rgba(47, 143, 116, 0.5));
+  background: color-mix(in srgb, var(--match-color, #4cb7ab) 12%, white);
 }
 
 .match-card.is-wrong {
@@ -1119,7 +1259,8 @@ button {
     grid-template-columns: 300px minmax(0, 1fr);
   }
 
-  .unit-card-grid {
+  .unit-card-grid,
+  .home-lab-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1185,9 +1326,27 @@ button {
     padding: 16px;
   }
 
-  .unit-card-grid {
+  .unit-card-grid,
+  .home-lab-grid {
     grid-template-columns: 1fr;
     padding: 16px;
+  }
+
+  .unit-accordion-list {
+    padding: 16px;
+  }
+
+  .unit-accordion summary {
+    grid-template-columns: 1fr auto;
+  }
+
+  .unit-accordion summary .lab-chip {
+    grid-column: 1 / -1;
+    width: fit-content;
+  }
+
+  .unit-accordion summary em {
+    margin-right: 36px;
   }
 
   .controls-panel {

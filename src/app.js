@@ -12,9 +12,9 @@ const courseUnits = [
         formula: "Scarcity -> Choice -> Opportunity Cost",
         explanation: "基础经济概念更适合先做分类判断：先识别资源有限，再识别做出的选择，最后说清楚放弃了什么。",
         categories: [
-          { id: "scarcity", label: "Scarcity 稀缺性", hint: "资源不足以满足所有欲望" },
-          { id: "choice", label: "Choice 选择", hint: "必须在选项中做决定" },
-          { id: "opportunity-cost", label: "Opportunity Cost 机会成本", hint: "被放弃的次优选择" }
+          { id: "scarcity", label: "Scarcity 稀缺性", hint: "资源不足以满足所有欲望", color: "#c64861" },
+          { id: "choice", label: "Choice 选择", hint: "必须在选项中做决定", color: "#4f75b0" },
+          { id: "opportunity-cost", label: "Opportunity Cost 机会成本", hint: "被放弃的次优选择", color: "#8f85df" }
         ],
         items: [
           { id: "limited-time", label: "A student has only two hours after school", correct: "scarcity" },
@@ -97,9 +97,9 @@ const courseUnits = [
         formula: "Economic systems differ by who answers what, how, and for whom to produce.",
         explanation: "经济制度不需要硬画成图形；更重要的是判断资源配置由价格信号、政府计划，还是两者共同决定。",
         categories: [
-          { id: "market", label: "Market 市场经济", hint: "价格、利润、竞争主导" },
-          { id: "command", label: "Command 命令经济", hint: "政府计划和指令主导" },
-          { id: "mixed", label: "Mixed 混合经济", hint: "市场与政府共同发挥作用" }
+          { id: "command", label: "Command 命令经济", hint: "政府计划和指令主导", color: "#c64861" },
+          { id: "mixed", label: "Mixed 混合经济", hint: "市场与政府共同发挥作用", color: "#8f85df" },
+          { id: "market", label: "Market 市场经济", hint: "价格、利润、竞争主导", color: "#4f75b0" }
         ],
         items: [
           { id: "price-signal", label: "Firms expand output because price rises", correct: "market" },
@@ -121,61 +121,26 @@ const courseUnits = [
     focus: "GDP / CPI / Labor / Business Cycle",
     accent: "from-labor",
     labs: [
-      {
-        id: "measuring-output",
-        unit: "Unit 2",
-        title: "Measuring Output",
-        subtitle: "衡量总产出",
-        description: "GDP、GDP components、Nominal GDP、Real GDP 与 GDP Deflator。",
-        accent: "from-output",
-        steps: [
-          {
-            id: "gdp-components",
-            label: "Step 1",
-            title: "GDP components",
-            description: "用 GDP = C + I + G + NX 拆解总产出。",
-            componentType: "composition",
-            mode: "gdp",
-            formula: "GDP = C + I + G + NX",
-            explanation: "GDP 是一定时期内，一个经济体境内生产的最终产品和服务的市场价值。",
-            parts: [
-              { key: "consumption", label: "Consumption 消费", shortLabel: "C", defaultValue: 600, min: 0, max: 1000, step: 10, color: "#d07f46" },
-              { key: "investment", label: "Investment 投资", shortLabel: "I", defaultValue: 200, min: 0, max: 600, step: 10, color: "#4cb7ab" },
-              { key: "government", label: "Government Spending 政府支出", shortLabel: "G", defaultValue: 250, min: 0, max: 600, step: 10, color: "#8f85df" },
-              { key: "netExports", label: "Net Exports 净出口", shortLabel: "NX", defaultValue: -50, min: -300, max: 300, step: 10, color: "#c64861" }
-            ]
-          },
-          {
-            id: "nominal-real-gdp",
-            label: "Step 2",
-            title: "Nominal vs Real GDP",
-            description: "观察价格和数量如何分别影响名义 GDP 与实际 GDP。",
-            componentType: "formula",
-            formulaType: "nominal-real-gdp",
-            formula: "Nominal GDP = Q x Current Price; Real GDP = Q x Base Year Price",
-            explanation: "名义 GDP 使用当年价格，实际 GDP 使用基期价格，因此实际 GDP 更适合衡量真实产出变化。",
-            controls: [
-              { key: "quantity", label: "Quantity 数量", defaultValue: 100, min: 50, max: 200, step: 1 },
-              { key: "currentPrice", label: "Current Price 当年价格", defaultValue: 12, min: 5, max: 30, step: 1 },
-              { key: "basePrice", label: "Base Year Price 基期价格", defaultValue: 10, min: 5, max: 30, step: 1 }
-            ]
-          },
-          {
-            id: "gdp-deflator",
-            label: "Step 3",
-            title: "GDP Deflator",
-            description: "用名义 GDP 和实际 GDP 衡量整体价格水平。",
-            componentType: "formula",
-            formulaType: "gdp-deflator",
-            formula: "GDP Deflator = Nominal GDP / Real GDP x 100",
-            explanation: "GDP Deflator 表示当前价格水平相对基期的变化。",
-            controls: [
-              { key: "nominalGDP", label: "Nominal GDP 名义 GDP", defaultValue: 1200, min: 500, max: 3000, step: 50 },
-              { key: "realGDP", label: "Real GDP 实际 GDP", defaultValue: 1000, min: 500, max: 3000, step: 50 }
-            ]
-          }
+      classificationLab("measuring-output", "Unit 2", "Measuring Output", "衡量总产出", "把 GDP 例子连到正确概念，先判断是否计入，再区分名义、实际和 deflator。", {
+        formula: "GDP = final goods and services produced within a country in a given period.",
+        explanation: "GDP 题不只是在算 C + I + G + NX。AP 常先考概念判断：是否是境内、本期、最终产品或服务；再区分名义 GDP、实际 GDP 和 GDP deflator。",
+        categories: [
+          { id: "counted-gdp", label: "Counted in GDP 计入 GDP", hint: "境内、本期、最终产品或服务" },
+          { id: "not-counted", label: "Not counted 不计入 GDP", hint: "中间品、二手交易、金融交易或国外生产" },
+          { id: "nominal-gdp", label: "Nominal GDP 名义 GDP", hint: "使用当年价格" },
+          { id: "real-gdp", label: "Real GDP 实际 GDP", hint: "使用基期价格衡量真实产量" },
+          { id: "gdp-deflator", label: "GDP Deflator", hint: "Nominal GDP / Real GDP x 100" }
+        ],
+        items: [
+          { id: "new-domestic-laptop", label: "A household buys a new laptop produced domestically this year", correct: "counted-gdp" },
+          { id: "government-teacher", label: "A public school pays a teacher's salary", correct: "counted-gdp" },
+          { id: "used-car", label: "A family buys a used car from another household", correct: "not-counted" },
+          { id: "bakery-flour", label: "A bakery buys flour to make bread for sale", correct: "not-counted" },
+          { id: "current-price-output", label: "Output valued using this year's prices", correct: "nominal-gdp" },
+          { id: "base-price-output", label: "Output valued using base-year prices", correct: "real-gdp" },
+          { id: "price-index-ratio", label: "Nominal GDP divided by Real GDP, then multiplied by 100", correct: "gdp-deflator" }
         ]
-      },
+      }),
       {
         id: "measuring-prices",
         unit: "Unit 2",
@@ -228,29 +193,15 @@ const courseUnits = [
             id: "labor-composition",
             label: "Step 1",
             title: "Labor force composition",
-            description: "区分 employed、unemployed 和 not in labor force。",
+            description: "区分 employed、unemployed 和 not in labor force，并同时计算失业率和 LFPR。",
             componentType: "composition",
             mode: "labor",
-            formula: "Labor Force = Employed + Unemployed",
-            explanation: "劳动力人口包括就业者和正在找工作的失业者；不找工作的人不在劳动力人口中。",
+            formula: "Labor Force = Employed + Unemployed; Unemployment Rate = Unemployed / Labor Force x 100; LFPR = Labor Force / Adult Population x 100",
+            explanation: "劳动力人口包括就业者和正在找工作的失业者；不找工作的人不在劳动力人口中。把三个公式放在同一页，能直接比较 unemployment rate 和 LFPR。",
             parts: [
               { key: "employed", label: "Employed 就业者", defaultValue: 90, min: 40, max: 180, step: 1, color: "#4cb7ab" },
               { key: "unemployed", label: "Unemployed 失业者", defaultValue: 10, min: 0, max: 60, step: 1, color: "#c64861" },
               { key: "notInLaborForce", label: "Not in Labor Force 非劳动力", defaultValue: 50, min: 0, max: 120, step: 1, color: "#8f85df" }
-            ]
-          },
-          {
-            id: "participation-rate",
-            label: "Step 2",
-            title: "Labor force participation rate",
-            description: "计算成年人中有多少人参与劳动市场。",
-            componentType: "formula",
-            formulaType: "labor-force-participation",
-            formula: "LFPR = Labor Force / Adult Population x 100",
-            explanation: "劳动力参与率和失业率不同；参与率下降可能说明更多人退出劳动市场。",
-            controls: [
-              { key: "laborForce", label: "Labor Force 劳动力人口", defaultValue: 100, min: 50, max: 200, step: 1 },
-              { key: "adultPopulation", label: "Adult Population 成年人口", defaultValue: 150, min: 100, max: 300, step: 1 }
             ]
           }
         ]
@@ -266,18 +217,10 @@ const courseUnits = [
           {
             id: "click-stage",
             label: "Step 1",
-            title: "Click stage",
-            description: "点击阶段查看 Real GDP、失业和通胀变化。",
+            title: "Business cycle stages",
+            description: "点击阶段查看 Real GDP、失业、通胀和可选政策反应。",
             componentType: "cycle",
-            explanation: "同一条商业周期曲线可以用于观察不同阶段的宏观变量状态。"
-          },
-          {
-            id: "policy-response",
-            label: "Step 2",
-            title: "Policy response",
-            description: "理解不同阶段可能对应的财政或货币政策反应。",
-            componentType: "cycle",
-            explanation: "宏观政策通常试图稳定产出、就业和价格水平。"
+            explanation: "同一条商业周期曲线可以用于观察不同阶段的宏观变量状态。长期增长趋势向上，短期波动围绕趋势线展开。"
           }
         ],
         stages: [
@@ -565,7 +508,49 @@ const courseUnits = [
     accent: "from-cycle",
     labs: [
       flowLab("balance-of-payments", "Unit 6", "Balance of Payments", "国际收支", "区分经常账户和金融账户。", "bop"),
-      marketLab("foreign-exchange", "Unit 6", "Foreign Exchange Market", "外汇市场", "用外汇供给和需求分析汇率、升值和贬值。", "forex"),
+      {
+        id: "foreign-exchange",
+        unit: "Unit 6",
+        title: "Foreign Exchange Market",
+        subtitle: "外汇市场",
+        description: "先判断外汇冲击影响 Demand 还是 Supply，再移动曲线分析汇率。",
+        accent: "from-prices",
+        steps: [
+          {
+            id: "forex-determinants",
+            label: "Step 1",
+            title: "Forex determinants",
+            description: "把外汇市场 shock 连到正确曲线。",
+            componentType: "classification",
+            formula: "Currency demand comes from foreigners buying domestic goods/assets; currency supply comes from domestic residents buying foreign goods/assets.",
+            explanation: "外汇题通常先判断哪一条曲线移动。外国人需要本币购买本国商品或资产，会增加本币需求；本国人需要外币购买外国商品或资产，会增加本币供给。",
+            categories: [
+              { id: "currency-demand", label: "Demand for currency 需求", hint: "外国人购买本国商品或资产" },
+              { id: "currency-supply", label: "Supply of currency 供给", hint: "本国人购买外国商品或资产" }
+            ],
+            items: [
+              { id: "exports-rise", label: "Foreign consumers buy more domestic exports", correct: "currency-demand" },
+              { id: "domestic-assets-attractive", label: "Foreign investors buy more domestic bonds", correct: "currency-demand" },
+              { id: "imports-rise", label: "Domestic consumers buy more foreign goods", correct: "currency-supply" },
+              { id: "foreign-assets-attractive", label: "Domestic investors buy more foreign bonds", correct: "currency-supply" }
+            ]
+          },
+          {
+            id: "foreign-exchange-equilibrium",
+            label: "Step 2",
+            title: "Foreign Exchange Market",
+            description: "移动外汇供给和需求，观察汇率、升值和贬值；若 Step 1 已答对，曲线会先按该 shock 自动设置。",
+            componentType: "forex",
+            marketType: "forex",
+            formula: "Equilibrium occurs where currency supply intersects currency demand.",
+            explanation: "外汇需求增加通常推高本币汇率，本币升值；外汇供给增加通常压低本币汇率，本币贬值。",
+            controls: [
+              { key: "supplyShift", label: "Currency Supply 货币供给", defaultValue: 0, min: -35, max: 35, step: 1 },
+              { key: "demandShift", label: "Currency Demand 货币需求", defaultValue: 0, min: -35, max: 35, step: 1 }
+            ]
+          }
+        ]
+      },
       flowLab("capital-flows", "Unit 6", "Capital Flows", "资本流动", "观察利率差异如何影响资本流动和汇率。", "capital"),
       {
         id: "policy-open-economy",
@@ -604,6 +589,9 @@ const state = {
   matches: {},
   selectedMatchItem: null,
   selectedStage: "expansion",
+  openUnits: new Set([courseUnits[0].id]),
+  showFormulaDetails: false,
+  showPolicyResponse: false,
   dragFrame: null
 };
 
@@ -778,6 +766,8 @@ function controlsFor(step) {
 function resetValues(step = currentStep()) {
   state.values = {};
   state.selectedMatchItem = null;
+  state.showFormulaDetails = false;
+  state.showPolicyResponse = false;
   for (const control of controlsFor(step)) {
     state.values[control.key] = control.defaultValue;
   }
@@ -787,6 +777,29 @@ function resetValues(step = currentStep()) {
   if (step.componentType === "cycle") {
     state.selectedStage = currentLab().stages?.[0]?.key ?? "expansion";
   }
+  applyLinkedDefaults(step);
+}
+
+function forexShockShift(itemId) {
+  return {
+    "exports-rise": { demandShift: 18, supplyShift: 0 },
+    "domestic-assets-attractive": { demandShift: 22, supplyShift: 0 },
+    "imports-rise": { demandShift: 0, supplyShift: 18 },
+    "foreign-assets-attractive": { demandShift: 0, supplyShift: 22 }
+  }[itemId];
+}
+
+function applyLinkedDefaults(step) {
+  if (currentLab().id !== "foreign-exchange" || step.id !== "foreign-exchange-equilibrium") return;
+
+  const determinantStep = currentLab().steps.find((item) => item.id === "forex-determinants");
+  const matches = determinantStep ? matchesForStep(determinantStep) : {};
+  const correctMatch = (determinantStep?.items ?? []).find((item) => matches[item.id] === item.correct);
+  const shift = correctMatch ? forexShockShift(correctMatch.id) : null;
+  if (!shift) return;
+
+  state.values.supplyShift = shift.supplyShift;
+  state.values.demandShift = shift.demandShift;
 }
 
 function enterUnit(unitId) {
@@ -804,6 +817,7 @@ function enterLab(unitId, labId) {
   const lab = unit.labs.find((item) => item.id === labId) ?? unit.labs[0];
   state.view = "lab";
   state.unitId = unit.id;
+  state.openUnits.add(unit.id);
   state.labId = lab.id;
   state.stepId = lab.steps[0].id;
   resetValues(lab.steps[0]);
@@ -842,18 +856,30 @@ function renderHome() {
           <p>宏观经济学互动课程地图</p>
           <div class="unit-count"><span>${allLabs().length} Labs</span><strong>→</strong></div>
         </header>
-        <div class="unit-card-grid">
+        <div class="unit-accordion-list">
           ${courseUnits.map((unit) => `
-            <article class="unit-card clickable-card" data-open-unit="${unit.id}" tabindex="0" role="button" aria-label="Open ${unit.label}">
-              <div>
+            <details class="unit-accordion" data-unit-accordion="${unit.id}" ${state.openUnits.has(unit.id) ? "open" : ""}>
+              <summary>
                 <span class="lab-chip">${unit.label}</span>
-                <span class="status-pill">${unit.weight}</span>
+                <span>
+                  <strong>${unit.title}</strong>
+                  <small>${unit.subtitle} · ${unit.focus}</small>
+                </span>
+                <em>${unit.weight}</em>
+              </summary>
+              <div class="home-lab-grid">
+                ${unit.labs.map((lab) => `
+                  <article class="lab-card clickable-card" data-open-lab="${lab.id}" data-unit="${unit.id}" tabindex="0" role="button" aria-label="Open ${lab.title}">
+                    <div>
+                      <span class="lab-chip">${lab.unit}</span>
+                    </div>
+                    <h2>${lab.title}</h2>
+                    <p>${lab.description}</p>
+                    <button type="button" tabindex="-1" aria-hidden="true">进入实验</button>
+                  </article>
+                `).join("")}
               </div>
-              <h2>${unit.title}</h2>
-              <p>${unit.subtitle}</p>
-              <small>${unit.focus}</small>
-              <button type="button" tabindex="-1" aria-hidden="true">进入 ${unit.label}</button>
-            </article>
+            </details>
           `).join("")}
         </div>
       </section>
@@ -1104,6 +1130,27 @@ function renderCompositionBlocks(step) {
           `;
         }).join("")}
       </div>
+      ${step.mode === "cpi" || step.mode === "labor" ? `
+        <button class="inline-toggle ${state.showFormulaDetails ? "is-active" : ""}" data-toggle-formula type="button">
+          ${state.showFormulaDetails ? "Hide formula details" : "Show formula details"}
+        </button>
+      ` : ""}
+      ${step.mode === "cpi" && state.showFormulaDetails ? `
+        <div class="formula-breakdown">
+          <span>Basket formula</span>
+          <strong>Base basket = ${parts.map((part) => `${formatNumber(part.baseValue)} ${part.label.split(" ")[0]}`).join(" + ")} = ${formatNumber(summary.metrics[0][1])}</strong>
+          <strong>Current basket = ${parts.map((part) => `${formatNumber(value(part.key))} ${part.label.split(" ")[0]}`).join(" + ")} = ${formatNumber(summary.metrics[1][1])}</strong>
+          <strong>CPI = Current Basket / Base Basket x 100 = ${formatNumber(summary.metrics[2][1])}</strong>
+        </div>
+      ` : ""}
+      ${step.mode === "labor" && state.showFormulaDetails ? `
+        <div class="formula-breakdown">
+          <span>Labor formulas</span>
+          <strong>Labor Force = Employed + Unemployed = ${formatNumber(summary.metrics[3][1])}</strong>
+          <strong>Unemployment Rate = Unemployed / Labor Force x 100 = ${formatNumber(summary.metrics[4][1])}%</strong>
+          <strong>LFPR = Labor Force / Adult Population x 100 = ${formatNumber(summary.metrics[5][1])}%</strong>
+        </div>
+      ` : ""}
       ${renderMetrics(summary.metrics)}
     </section>
   `;
@@ -1136,6 +1183,7 @@ function renderClassification(step) {
   const categories = step.categories ?? [];
   const items = step.items ?? [];
   const summary = classificationSummary(step);
+  const categoryById = Object.fromEntries(categories.map((category) => [category.id, category]));
   return `
     <section class="panel visual-panel">
       <div class="panel-heading">
@@ -1150,11 +1198,13 @@ function renderClassification(step) {
           ${items.map((item) => {
             const assigned = matches[item.id];
             const isCorrect = assigned === item.correct;
+            const color = categoryById[assigned]?.color ?? categoryById[item.correct]?.color;
             return `
               <button class="match-card ${state.selectedMatchItem === item.id ? "is-selected" : ""} ${assigned ? isCorrect ? "is-correct" : "is-wrong" : ""}"
                 draggable="true"
                 data-match-item="${item.id}"
-                data-correct-category="${item.correct}">
+                data-correct-category="${item.correct}"
+                style="${color ? `--match-color:${color}` : ""}">
                 <span>${item.label}</span>
                 ${assigned ? `<small>${isCorrect ? "Correct" : "Try again"}</small>` : ""}
               </button>
@@ -1164,7 +1214,7 @@ function renderClassification(step) {
         <div class="matching-column">
           <div class="matching-heading">Categories</div>
           ${categories.map((category) => `
-            <button class="match-target" data-match-category="${category.id}">
+            <button class="match-target" data-match-category="${category.id}" style="${category.color ? `--match-color:${category.color}` : ""}">
               <strong>${category.label}</strong>
               <span>${category.hint}</span>
             </button>
@@ -1258,15 +1308,22 @@ function renderPpcChart(step) {
   const y = clamp(value("goodY"), 0, capacity);
   const toX = (dataX) => 70 + dataX / capacity * 520;
   const toY = (dataY) => 330 - dataY / capacity * 260;
+  const toXBase = (dataX) => 70 + dataX / 130 * 520;
+  const toYBase = (dataY) => 330 - dataY / 130 * 260;
+  const growthMode = step.id === "ppc-growth";
   const points = Array.from({ length: 21 }, (_, index) => {
     const dataX = capacity * index / 20;
-    return `${toX(dataX)},${toY(ppcFrontier(dataX, capacity))}`;
+    return growthMode ? `${toXBase(dataX)},${toYBase(ppcFrontier(dataX, capacity))}` : `${toX(dataX)},${toY(ppcFrontier(dataX, capacity))}`;
   }).join(" ");
   const oldPoints = Array.from({ length: 21 }, (_, index) => {
     const oldCapacity = 100;
     const dataX = oldCapacity * index / 20;
-    return `${toX(dataX)},${toY(ppcFrontier(dataX, oldCapacity))}`;
+    return `${toXBase(dataX)},${toYBase(ppcFrontier(dataX, oldCapacity))}`;
   }).join(" ");
+  const pointX = growthMode ? toXBase(x) : toX(x);
+  const pointY = growthMode ? toYBase(y) : toY(y);
+  const frontierY = ppcFrontier(x, capacity);
+  const status = y > frontierY + 2 ? "Unattainable" : y < frontierY - 2 ? "Inefficient" : "Efficient";
 
   return `
     <section class="panel visual-panel">
@@ -1279,12 +1336,16 @@ function renderPpcChart(step) {
         <line x1="70" y1="45" x2="70" y2="330" class="axis"></line>
         <text x="350" y="368" class="chart-label" text-anchor="middle">Consumer Goods</text>
         <text x="24" y="190" class="chart-label" text-anchor="middle" transform="rotate(-90 24 190)">Capital Goods</text>
-        ${capacity !== 100 ? `<polyline points="${oldPoints}" class="reference-line"></polyline>` : ""}
+        ${growthMode ? `<polyline points="${oldPoints}" class="reference-line"></polyline><text x="365" y="250" class="chart-label">Old PPC</text>` : ""}
         <polyline points="${points}" class="model-line"></polyline>
-        <g class="draggable-point" data-drag-point="ppc-point" data-x-key="goodX" data-y-key="goodY" data-min-x="0" data-max-x="${capacity}" data-min-y="0" data-max-y="${capacity}">
-          <circle class="drag-hit" cx="${toX(x)}" cy="${toY(y)}" r="24"></circle>
-          <circle class="drag-dot" cx="${toX(x)}" cy="${toY(y)}" r="10"></circle>
-          <text x="${toX(x) + 16}" y="${toY(y) - 14}">A</text>
+        <text x="450" y="${growthMode && capacity > 100 ? 112 : 132}" class="chart-label">${growthMode ? "New PPC" : "PPC"}</text>
+        <text x="178" y="270" class="chart-label">Inside: inefficient</text>
+        <text x="392" y="94" class="chart-label">Outside: unattainable</text>
+        <text x="492" y="176" class="chart-label">On PPC: efficient</text>
+        <g class="draggable-point" data-drag-point="ppc-point" data-x-key="goodX" data-y-key="goodY" data-min-x="0" data-max-x="${capacity}" data-min-y="0" data-max-y="${capacity}" data-scale-max="${growthMode ? 130 : capacity}">
+          <circle class="drag-hit" cx="${pointX}" cy="${pointY}" r="24"></circle>
+          <circle class="drag-dot" cx="${pointX}" cy="${pointY}" r="10"></circle>
+          <text x="${pointX + 16}" y="${pointY - 14}">A: ${status}</text>
         </g>
       </svg>
       ${renderMetrics(ppcSummary(step).metrics)}
@@ -1297,12 +1358,14 @@ function comparativeSummary() {
   const ocAY = value("aX") / Math.max(value("aY"), 1);
   const ocBX = value("bY") / Math.max(value("bX"), 1);
   const ocBY = value("bX") / Math.max(value("bY"), 1);
-  const xAdvantage = ocAX < ocBX ? "Country A" : "Country B";
-  const yAdvantage = ocAY < ocBY ? "Country A" : "Country B";
+  const sameX = Math.abs(ocAX - ocBX) < 0.01;
+  const sameY = Math.abs(ocAY - ocBY) < 0.01;
+  const xAdvantage = sameX ? "No country" : ocAX < ocBX ? "Country A" : "Country B";
+  const yAdvantage = sameY ? "No country" : ocAY < ocBY ? "Country A" : "Country B";
   return {
-    total: `${xAdvantage} in X`,
+    total: sameX ? "No comparative advantage in X" : `${xAdvantage} in X`,
     metrics: [["A cost of X", ocAX], ["B cost of X", ocBX], ["A cost of Y", ocAY], ["B cost of Y", ocBY]],
-    feedback: `${xAdvantage} has comparative advantage in Good X; ${yAdvantage} has comparative advantage in Good Y.`
+    feedback: `${sameX ? "Both countries have the same opportunity cost for Good X, so neither has comparative advantage in X" : `${xAdvantage} has comparative advantage in Good X`}; ${sameY ? "both countries have the same opportunity cost for Good Y, so neither has comparative advantage in Y" : `${yAdvantage} has comparative advantage in Good Y`}.`
   };
 }
 
@@ -1330,6 +1393,9 @@ function renderComparative(step) {
         <text x="195" y="365" text-anchor="middle" class="chart-label">Good X</text>
         <text x="505" y="365" text-anchor="middle" class="chart-label">Good X</text>
       </svg>
+      <div class="ap-answer-strip">
+        <div><span>AP input check</span><strong>${summary.feedback}</strong></div>
+      </div>
       ${renderMetrics(summary.metrics)}
     </section>
   `;
@@ -1517,12 +1583,14 @@ function flowSummary(step) {
     }
     case "bop": {
       const currentAccount = value("exports") - value("imports");
-      const financialAccount = value("capitalInflow");
+      const financialAccount = -currentAccount;
+      const recordedCapitalInflow = value("capitalInflow");
+      const statisticalDiscrepancy = financialAccount - recordedCapitalInflow;
       const gap = currentAccount + financialAccount;
       return {
-        total: gap > 0 ? "Net Surplus" : gap < 0 ? "Net Deficit" : "Balanced",
-        metrics: [["Current Account", currentAccount], ["Financial Account", financialAccount], ["BOP Balance", gap]],
-        feedback: `经常账户为 ${formatNumber(currentAccount)}，金融账户为 ${formatNumber(financialAccount)}。国际收支通常通过账户间流动趋向平衡。`
+        total: "Balanced",
+        metrics: [["Current Account", currentAccount], ["Financial Account", financialAccount], ["Statistical Adjustment", statisticalDiscrepancy], ["BOP Balance", gap]],
+        feedback: `经常账户为 ${formatNumber(currentAccount)}，金融账户自动作为抵消项为 ${formatNumber(financialAccount)}，所以 BOP Balance 保持为 0。调整项显示录入资本流入和理论平衡值的差。`
       };
     }
     case "capital": {
@@ -1620,7 +1688,10 @@ function renderCycleChart(lab, step) {
         <line x1="58" y1="38" x2="58" y2="330" class="axis"></line>
         <text x="350" y="368" class="chart-label" text-anchor="middle">Time</text>
         <text x="18" y="188" class="chart-label" text-anchor="middle" transform="rotate(-90 18 188)">Real GDP</text>
+        <line x1="78" y1="250" x2="615" y2="150" class="reference-line"></line>
+        <text x="465" y="143" class="chart-label">Long-run growth trend</text>
         <path d="M 70 270 L 180 170 L 270 90 L 390 210 L 500 300 L 610 190" class="cycle-line"></path>
+        <text x="275" y="315" class="chart-label">Short-run fluctuations</text>
         ${Object.entries(stagePoints).map(([key, point]) => {
           const data = lab.stages.find((item) => item.key === key);
           return `
@@ -1633,7 +1704,11 @@ function renderCycleChart(lab, step) {
       </svg>
       <div class="stage-summary">
         <strong>${stage?.label} / ${stage?.subtitle}</strong>
-        <p>${step.id === "policy-response" ? stage?.policy : stage?.explanation}</p>
+        <p>${stage?.explanation}</p>
+        <button class="inline-toggle ${state.showPolicyResponse ? "is-active" : ""}" data-toggle-policy type="button">
+          ${state.showPolicyResponse ? "Hide policy response" : "Show policy response"}
+        </button>
+        ${state.showPolicyResponse ? `<p><b>Policy response:</b> ${stage?.policy}</p>` : ""}
       </div>
     </section>
   `;
@@ -1650,7 +1725,7 @@ function feedbackForStep(lab, step) {
   }
   if (step.componentType === "cycle") {
     const stage = (lab.stages ?? []).find((item) => item.key === state.selectedStage) ?? lab.stages?.[0];
-    return { value: stage?.label ?? "", text: step.id === "policy-response" ? stage?.policy ?? "" : stage?.explanation ?? "" };
+    return { value: stage?.label ?? "", text: state.showPolicyResponse ? `${stage?.explanation ?? ""} Policy response: ${stage?.policy ?? ""}` : stage?.explanation ?? "" };
   }
   if (step.componentType === "classification") return classificationSummary(step);
   if (step.componentType === "allocation") return allocationSummary(step);
@@ -1716,6 +1791,7 @@ function renderMainColumnOnly() {
   if (mainColumn) {
     mainColumn.innerHTML = renderMainColumn(currentLab(), currentStep());
     bindStageEvents();
+    bindToggleEvents();
     bindClassificationEvents();
     bindDraggableSvgPoints();
     drawMatchingLines();
@@ -1776,12 +1852,15 @@ function renderFeedbackOnly() {
 function updatePpcDragDom(svg) {
   const step = currentStep();
   const capacity = value("capacity") || Number(svg.querySelector("[data-drag-point]")?.dataset.maxX ?? 100);
+  const scaleMax = Number(svg.querySelector("[data-drag-point]")?.dataset.scaleMax ?? capacity);
   const x = clamp(value("goodX"), 0, capacity);
   const y = clamp(value("goodY"), 0, capacity);
-  const toX = (dataX) => 70 + dataX / capacity * 520;
-  const toY = (dataY) => 330 - dataY / capacity * 260;
+  const toX = (dataX) => 70 + dataX / scaleMax * 520;
+  const toY = (dataY) => 330 - dataY / scaleMax * 260;
   const cx = toX(x);
   const cy = toY(y);
+  const frontier = ppcFrontier(x, capacity);
+  const status = y > frontier + 2 ? "Unattainable" : y < frontier - 2 ? "Inefficient" : "Efficient";
 
   svg.querySelectorAll(".drag-hit, .drag-dot").forEach((circle) => {
     circle.setAttribute("cx", cx);
@@ -1792,6 +1871,7 @@ function updatePpcDragDom(svg) {
   if (label) {
     label.setAttribute("x", cx + 16);
     label.setAttribute("y", cy - 14);
+    label.textContent = `A: ${status}`;
   }
 
   const metrics = svg.closest(".visual-panel")?.querySelector(".metrics-grid");
@@ -1808,12 +1888,47 @@ function bindStageEvents() {
   }
 }
 
+function bindToggleEvents() {
+  document.querySelector("[data-toggle-formula]")?.addEventListener("click", () => {
+    state.showFormulaDetails = !state.showFormulaDetails;
+    renderMainColumnOnly();
+  });
+
+  document.querySelector("[data-toggle-policy]")?.addEventListener("click", () => {
+    state.showPolicyResponse = !state.showPolicyResponse;
+    renderMainColumnOnly();
+  });
+}
+
+function bindHomeAccordionEvents() {
+  for (const details of document.querySelectorAll("[data-unit-accordion]")) {
+    details.addEventListener("toggle", () => {
+      if (details.open) state.openUnits.add(details.dataset.unitAccordion);
+      else state.openUnits.delete(details.dataset.unitAccordion);
+    });
+  }
+}
+
 function assignMatch(itemId, categoryId) {
   const step = currentStep();
   const matches = matchesForStep(step);
   matches[itemId] = categoryId;
   state.selectedMatchItem = null;
+  applyClassificationSideEffects(step, itemId, categoryId);
   renderMainColumnOnly();
+}
+
+function applyClassificationSideEffects(step, itemId, categoryId) {
+  if (step.id !== "forex-determinants") return;
+
+  const shock = forexShockShift(itemId);
+  if (!shock) return;
+
+  const correct = (step.items ?? []).find((item) => item.id === itemId)?.correct;
+  if (correct !== categoryId) return;
+
+  state.values.supplyShift = shock.supplyShift;
+  state.values.demandShift = shock.demandShift;
 }
 
 function drawMatchingLines() {
@@ -1829,6 +1944,7 @@ function drawMatchingLines() {
   svg.innerHTML = "";
 
   const matches = matchesForStep(step);
+  const categories = Object.fromEntries((step.categories ?? []).map((category) => [category.id, category]));
   for (const [itemId, categoryId] of Object.entries(matches)) {
     const item = board.querySelector(`[data-match-item="${itemId}"]`);
     const target = board.querySelector(`[data-match-category="${categoryId}"]`);
@@ -1845,6 +1961,7 @@ function drawMatchingLines() {
     const mid = (x1 + x2) / 2;
     line.setAttribute("d", `M ${x1} ${y1} C ${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}`);
     line.setAttribute("class", `matching-line ${correct ? "is-correct" : "is-wrong"}`);
+    if (categories[categoryId]?.color) line.setAttribute("style", `--match-color:${categories[categoryId].color}`);
     svg.appendChild(line);
   }
 }
@@ -1895,14 +2012,15 @@ function bindDraggableSvgPoints() {
       const maxX = Number(point.dataset.maxX ?? 100);
       const minY = Number(point.dataset.minY ?? 0);
       const maxY = Number(point.dataset.maxY ?? 100);
+      const scaleMax = Number(point.dataset.scaleMax ?? maxX);
 
       const move = (moveEvent) => {
         const rect = svg.getBoundingClientRect();
         const viewBox = svg.viewBox.baseVal;
         const svgX = (moveEvent.clientX - rect.left) / rect.width * viewBox.width;
         const svgY = (moveEvent.clientY - rect.top) / rect.height * viewBox.height;
-        const dataX = clamp((svgX - 70) / 520 * maxX, minX, maxX);
-        const dataY = clamp((330 - svgY) / 260 * maxY, minY, maxY);
+        const dataX = clamp((svgX - 70) / 520 * scaleMax, minX, maxX);
+        const dataY = clamp((330 - svgY) / 260 * scaleMax, minY, maxY);
 
         state.values[xKey] = dataX;
         state.values[yKey] = dataY;
@@ -1932,6 +2050,7 @@ function bindDraggableSvgPoints() {
 }
 
 function bindEvents() {
+  bindHomeAccordionEvents();
   for (const button of document.querySelectorAll("[data-home]")) {
     button.addEventListener("click", () => {
       state.view = "home";
@@ -1977,6 +2096,7 @@ function bindEvents() {
     });
   }
   bindStageEvents();
+  bindToggleEvents();
   bindClassificationEvents();
   bindDraggableSvgPoints();
   drawMatchingLines();

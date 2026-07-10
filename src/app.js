@@ -918,6 +918,34 @@ function renderUnit() {
   `;
 }
 
+function renderUnitLabSidebar(activeLab) {
+  const unit = currentUnit();
+  return `
+    <section class="unit-lab-sidebar" aria-label="${unit.label} lab navigation">
+      <div class="unit-lab-sidebar-heading">
+        <span>${unit.label} Labs</span>
+        <strong>${unit.labs.length}</strong>
+      </div>
+      <nav class="unit-lab-nav">
+        ${unit.labs.map((lab) => {
+          const active = lab.id === activeLab.id;
+          return `
+            <button
+              class="unit-lab-nav-button ${active ? "is-active" : ""}"
+              data-switch-lab="${lab.id}"
+              data-unit="${unit.id}"
+              type="button"
+              ${active ? "aria-current=\"page\"" : ""}>
+              <span>${lab.title}</span>
+              <small>${lab.subtitle}</small>
+            </button>
+          `;
+        }).join("")}
+      </nav>
+    </section>
+  `;
+}
+
 function renderControls(lab, step) {
   const controlHtml = controlsFor(step)
     .map((control) => {
@@ -937,6 +965,7 @@ function renderControls(lab, step) {
   return `
     <aside class="panel controls-panel">
       <button class="back-button" data-back-unit>← ${currentUnit().label} Labs</button>
+      ${renderUnitLabSidebar(lab)}
       <div class="eyebrow">Controls</div>
       ${controlHtml || renderCycleButtons(lab)}
       <button class="reset-button" data-reset>重置</button>
@@ -2081,6 +2110,12 @@ function bindEvents() {
         event.preventDefault();
         enterLab(button.dataset.unit, button.dataset.openLab);
       }
+    });
+  }
+  for (const button of document.querySelectorAll("[data-switch-lab]")) {
+    button.addEventListener("click", () => {
+      if (button.dataset.switchLab === state.labId && button.dataset.unit === state.unitId) return;
+      enterLab(button.dataset.unit, button.dataset.switchLab);
     });
   }
   for (const button of document.querySelectorAll("[data-back-unit]")) {

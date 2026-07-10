@@ -1184,6 +1184,11 @@ function renderClassification(step) {
   const items = step.items ?? [];
   const summary = classificationSummary(step);
   const categoryById = Object.fromEntries(categories.map((category) => [category.id, category]));
+  const correctlyAnsweredCategories = new Set(
+    items
+      .filter((item) => matches[item.id] === item.correct)
+      .map((item) => item.correct)
+  );
   return `
     <section class="panel visual-panel">
       <div class="panel-heading">
@@ -1198,7 +1203,7 @@ function renderClassification(step) {
           ${items.map((item) => {
             const assigned = matches[item.id];
             const isCorrect = assigned === item.correct;
-            const color = categoryById[assigned]?.color ?? categoryById[item.correct]?.color;
+            const color = isCorrect ? categoryById[assigned]?.color : "";
             return `
               <button class="match-card ${state.selectedMatchItem === item.id ? "is-selected" : ""} ${assigned ? isCorrect ? "is-correct" : "is-wrong" : ""}"
                 draggable="true"
@@ -1213,12 +1218,15 @@ function renderClassification(step) {
         </div>
         <div class="matching-column">
           <div class="matching-heading">Categories</div>
-          ${categories.map((category) => `
-            <button class="match-target" data-match-category="${category.id}" style="${category.color ? `--match-color:${category.color}` : ""}">
-              <strong>${category.label}</strong>
-              <span>${category.hint}</span>
-            </button>
-          `).join("")}
+          ${categories.map((category) => {
+            const showColor = correctlyAnsweredCategories.has(category.id);
+            return `
+              <button class="match-target ${showColor ? "has-correct-match" : ""}" data-match-category="${category.id}" style="${showColor && category.color ? `--match-color:${category.color}` : ""}">
+                <strong>${category.label}</strong>
+                <span>${category.hint}</span>
+              </button>
+            `;
+          }).join("")}
         </div>
       </div>
       ${renderMetrics(summary.metrics)}
@@ -1961,7 +1969,7 @@ function drawMatchingLines() {
     const mid = (x1 + x2) / 2;
     line.setAttribute("d", `M ${x1} ${y1} C ${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}`);
     line.setAttribute("class", `matching-line ${correct ? "is-correct" : "is-wrong"}`);
-    if (categories[categoryId]?.color) line.setAttribute("style", `--match-color:${categories[categoryId].color}`);
+    if (correct && categories[categoryId]?.color) line.setAttribute("style", `--match-color:${categories[categoryId].color}`);
     svg.appendChild(line);
   }
 }

@@ -936,12 +936,17 @@ button {
 .match-card,
 .match-target {
   border: 1px solid var(--line);
-  border-left: 6px solid var(--match-color, var(--line));
+  border-left: 6px solid var(--line);
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.82);
   padding: 14px;
   color: var(--ink);
   text-align: left;
+}
+
+.match-card.is-correct,
+.match-target.has-correct-match {
+  border-left-color: var(--match-color, #2f8f74);
 }
 
 .match-card {

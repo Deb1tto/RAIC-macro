@@ -1321,7 +1321,7 @@ function renderControls(lab, step) {
 
   return `
     <aside class="panel controls-panel">
-      <button class="back-button" data-home>← Course Map</button>
+      <button class="back-button" data-home>← 返回</button>
       ${renderUnitLabSidebar(lab)}
       <div class="eyebrow">Controls</div>
       ${controlHtml || renderCycleButtons(lab)}
@@ -2328,7 +2328,6 @@ function renderLab() {
     <div class="page-shell">
       <header class="hero panel lab-hero ${lab.accent ?? currentUnit().accent}">
         <div>
-          <button class="ghost-button" data-home>← Course Map</button>
           <span class="badge">${lab.unit}</span>
           ${lab.steps.length > 1 ? `<span class="badge badge-soft">${lab.steps.length} Steps</span>` : ""}
         </div>

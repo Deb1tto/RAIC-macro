@@ -6,7 +6,6 @@ dist/
 build/
 
 # Local course-planning and agent context
-AGENTS.md
 AP_Macro_Lab_Summary_for_Teacher.docx
 AP_Macro_Labs_Only.pdf
 AP_Macro_Labs_Only.tex

@@ -551,7 +551,10 @@ const courseUnits = [
             title: "Policy actions in the AD-AS model",
             description: "移动 AD，观察稳定政策在衰退缺口和通胀缺口中的短期结果。",
             componentType: "adas",
-            formula: "Expansionary policy shifts AD right; contractionary policy shifts AD left.",
+            formulaLines: [
+              "Expansionary policy → AD shifts right",
+              "Contractionary policy → AD shifts left"
+            ],
             explanation: "财政政策通过政府支出和税收影响 AD；货币政策通过利率与投资影响 AD。两者都要结合当前产出缺口判断方向。",
             controls: [
               { key: "adShift", label: "Policy Effect on AD 政策对 AD 的影响", defaultValue: 15, min: -40, max: 40, step: 1 },
@@ -575,7 +578,10 @@ const courseUnits = [
             title: "Inflation and unemployment",
             description: "调节 AD 压力和预期通胀，观察 SRPC 与 LRPC。",
             componentType: "phillips",
-            formula: "In the long run, unemployment returns to the natural rate.",
+            formulaLines: [
+              "Long run:",
+              "Unemployment returns to the natural rate."
+            ],
             explanation: "短期 Phillips Curve 展示通胀与失业的权衡；预期通胀上升会让 SRPC 上移。",
             controls: [
               { key: "demandPressure", label: "AD Pressure 总需求压力", defaultValue: 0, min: -30, max: 30, step: 1 },
@@ -599,7 +605,10 @@ const courseUnits = [
             title: "Growth shifts capacity",
             description: "调节技术和资本，观察长期生产能力提升。",
             componentType: "ppc",
-            formula: "Growth increases potential output.",
+            formulaLines: [
+              "Economic growth",
+              "→ PPC and LRAS shift outward"
+            ],
             explanation: "长期经济增长来自资本、技术、人力资本和制度改善，表现为 PPC 或 LRAS 向外移动。",
             controls: [
               { key: "capacity", label: "Long-run Capacity 长期能力", defaultValue: 110, min: 80, max: 140, step: 1 },
@@ -627,7 +636,10 @@ const courseUnits = [
             title: "Long-run money neutrality",
             description: "调节货币增长和产出增长，观察通胀压力。",
             componentType: "allocation",
-            formula: "Inflation pressure roughly follows money growth minus output growth.",
+            formulaLines: [
+              "Inflation pressure",
+              "≈ money growth - real output growth"
+            ],
             explanation: "长期中，持续的货币增长更容易反映为价格水平上升，而真实产出主要由生产能力决定。",
             controls: [
               { key: "leftShare", label: "Money Growth 货币增长", defaultValue: 8, min: 0, max: 15, step: 0.1 },
@@ -1809,6 +1821,7 @@ function renderPpcChart(step) {
         <h2>${step.title}</h2>
         <p>${step.description}</p>
       </div>
+      ${renderFormulaBlock(step)}
       <svg viewBox="0 0 680 390" class="chart-svg draggable-chart" data-chart-type="ppc" aria-label="PPC chart">
         <line x1="70" y1="330" x2="620" y2="330" class="axis"></line>
         <line x1="70" y1="45" x2="70" y2="330" class="axis"></line>
@@ -2185,6 +2198,7 @@ function renderPhillips(step) {
         <h2>${step.title}</h2>
         <p>${step.description}</p>
       </div>
+      ${renderFormulaBlock(step)}
       <svg viewBox="0 0 680 390" class="chart-svg" aria-label="Phillips curve">
         <line x1="70" y1="330" x2="620" y2="330" class="axis"></line>
         <line x1="70" y1="45" x2="70" y2="330" class="axis"></line>

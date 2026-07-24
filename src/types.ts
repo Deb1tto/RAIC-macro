@@ -96,7 +96,7 @@ export interface LessonConfig {
   showNetExports?: boolean;
   formulaType?: FormulaType;
   marketType?: "product" | "reserve" | "money" | "loanable" | "forex";
-  flowType?: "bank" | "multiplier" | "bop" | "capital";
+  flowType?: "bank" | "multiplier" | "bop";
   controls?: ControlConfig[];
   parts?: CompositionPart[];
   draggablePoints?: DraggablePointConfig[];

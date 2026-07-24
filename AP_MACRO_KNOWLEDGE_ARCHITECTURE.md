@@ -16,7 +16,7 @@
 | 3 | National Income and Price Determination | ~10-12 | 17%-27% | 5 |
 | 4 | Financial Sector | ~11-13 | 18%-23% | 5 |
 | 5 | Long-Run Consequences of Stabilization Policies | ~8-10 | 20%-30% | 5 |
-| 6 | Open Economy—International Trade and Finance | ~5-7 | 10%-13% | 3 |
+| 6 | Open Economy—International Trade and Finance | ~5-7 | 10%-13% | 2 |
 
 ## Topic 到 Lab 的映射
 
@@ -60,7 +60,7 @@
 | 4.6 | Monetary Policy | Monetary Policy |
 | 4.7 | The Loanable Funds Market | Loanable Funds |
 
-架构变化：Reserve Market 不再作为 2026 CED 的独立 Topic；原 Bank Balance Sheet 与 Money Multiplier 合并为 Topic 4.4 的综合 Lab。
+架构变化：Reserve Market 不作为独立 CED Topic 或独立 Lab，而是 Monetary Policy 的内部 Step；原 Bank Balance Sheet 与 Money Multiplier 合并为 Topic 4.4 的综合 Lab。
 
 ### Unit 5：Long-Run Consequences of Stabilization Policies
 
@@ -79,8 +79,9 @@
 | CED Topic | 知识点 | 项目 Lab |
 | --- | --- | --- |
 | 6.1 | Balance of Payments Accounts | Balance of Payments |
-| 6.2-6.5 | Exchange Rates；Foreign Exchange Market；Policy/Economic Conditions；Net Exports | Foreign Exchange Market |
-| 6.6 | Real Interest Rates and International Capital Flows | Real Interest Rates and Capital Flows |
+| 6.2-6.6 | Exchange Rates；Foreign Exchange Market；Policy/Economic Conditions；Net Exports；Real Interest Rates and International Capital Flows | Foreign Exchange Market |
+
+架构变化：Real Interest Rates and Capital Flows 并入 Foreign Exchange Market。该 Lab 依次覆盖四方向曲线判断、相对利率的多答案表达、均衡汇率和汇率到净出口的因果链。
 
 ## 内容与交互规则
 

@@ -4,7 +4,7 @@
 
 This folder contains a lightweight AP Macroeconomics MVP for an interactive economics course site. It is intentionally built as a local, static prototype because the workspace did not contain an existing application repository or dependency manifest.
 
-## Current Planning Direction
+## Current Course Structure
 
 - Build toward a full AP Macroeconomics course map with 6 units:
   - Unit 1: Basic Economic Concepts
@@ -14,23 +14,18 @@ This folder contains a lightweight AP Macroeconomics MVP for an interactive econ
   - Unit 5: Long-Run Consequences of Stabilization Policies
   - Unit 6: Open Economy: International Trade and Finance
 - Keep each unit organized as a small set of interactive labs, not many tiny topic pages.
-- Unit 4 includes these labs:
-  - Bank Balance Sheet
-  - Money Multiplier
-  - Reserve Market
-  - Money Market
-  - Loanable Funds
-  - Monetary Policy
+- Unit 4 uses five integrated labs. Bank Balance Sheet and Money Multiplier are steps inside Banking and Money Expansion; Reserve Market is a step inside Monetary Policy.
+- Unit 6 uses two integrated labs. Real Interest Rates and International Capital Flows is taught inside Foreign Exchange Market rather than through a separate entry.
 
 ## Implementation Progress
 
-- Feedback integration: Phases 1-3 complete on `codex/feedback-integration`. Global navigation/formula deduplication is in place; Unit 1 and Unit 2 feedback is revised; Unit 6 now uses independent BOP inputs and a merged Forex sequence with four shift directions, multi-answer relative-rate reasoning, exact equilibria, and an exchange-rate-to-net-exports chain.
+- Feedback integration: Phases 1-5 complete on `codex/feedback-integration`. Global navigation/formula rules, Unit 1/2 revisions, Unit 6 causal interactions, Unit 3-5 formula structure, and the integrated Reserve Market step are implemented.
 - Course shell: complete. The app uses a 6-unit course map, unit pages, and lab pages.
 - Full lab data: complete. All planned placeholders have been replaced with first-version interactive labs.
-- Interactions: complete. Unit and lab cards are whole-card clickable with keyboard entry; homepage units remember accordion state; lab pages include a same-unit lab sidebar for direct switching; sliders update locally; PPC point drag remains smooth; formula and policy sections can be toggled.
-- Content alignment: complete. Unit 1 scarcity/economic systems use colored classification and drag-to-connect interactions; Unit 2 GDP now uses the same concept matching format; PPC, comparative advantage, CPI, labor, business cycle, BOP, and forex have been adjusted against teacher feedback; forex determinants link to the market shift; multiplier uses a comparison format.
-- Visual QA: limited. CSS and responsive states are implemented; automated browser screenshot QA is blocked because the local Playwright browser binary is not installed.
-- Verification: complete. `npm run check` passes, and the static server returns HTTP 200 on the local port.
+- Interactions: complete. Cards support whole-card keyboard entry; lab pages include same-unit navigation; sliders update locally; PPC drag is continuous; matching supports single and explicit multiple answers.
+- Content alignment: complete. The app covers all 42 Fall 2026 CED Topics exactly once at the Lab mapping layer. Formulae appear once in the central workspace and use structured lines where needed.
+- Visual QA: static responsive rules are implemented. This feedback pass intentionally uses code and structure checks without launching a local browser.
+- Verification: run `npm run check`, `git diff --check`, and the runtime CED coverage check before release.
 
 ## Development Rules
 

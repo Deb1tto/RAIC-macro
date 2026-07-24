@@ -24,6 +24,8 @@ http://localhost:5173/
 - Topic-to-lab coverage shown directly on the course map and unit pages
 - A small number of integrated labs per unit rather than one page per topic
 - Official exam weighting and suggested class periods from the 2026 CED
+- Same-unit Lab navigation, continuous sliders, SVG point drag, and single/multiple concept matching
+- Reserve Market inside Monetary Policy and capital-flow reasoning inside Foreign Exchange Market
 
 See `AP_MACRO_KNOWLEDGE_ARCHITECTURE.md` for the complete topic-to-lab map.
 
@@ -34,3 +36,12 @@ See `AP_MACRO_KNOWLEDGE_ARCHITECTURE.md` for the complete topic-to-lab map.
 - `src/styles.css`: visual system and responsive states
 - `src/types.ts`: intended typed configuration model
 - `src/data/macro-unit1.ts`: typed reference configuration retained for migration
+
+## Verify
+
+```bash
+npm run check
+git diff --check
+```
+
+The runtime also rejects missing or duplicate mappings across the 42 official CED Topics.

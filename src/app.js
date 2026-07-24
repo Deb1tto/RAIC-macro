@@ -997,23 +997,6 @@ function flowLab(id, unit, title, subtitle, description, flowType) {
         { key: "deposit", label: "Initial Deposit 初始存款", defaultValue: 1000, min: 100, max: 3000, step: 10 },
         { key: "reserveRatio", label: "Reserve Ratio 准备金率", defaultValue: 0.1, min: 0.02, max: 0.4, step: 0.01 }
       ]
-    },
-    bop: {
-      formula: "Current Account + Financial Account = 0",
-      explanation: "经常账户记录商品、服务和收入流动；金融账户记录资产购买和资本流动。一个账户的赤字通常对应另一个账户的盈余。",
-      controls: [
-        { key: "exports", label: "Exports 出口", defaultValue: 120, min: 0, max: 300, step: 1 },
-        { key: "imports", label: "Imports 进口", defaultValue: 150, min: 0, max: 300, step: 1 },
-        { key: "capitalInflow", label: "Capital Inflow 资本流入", defaultValue: 30, min: -150, max: 150, step: 1 }
-      ]
-    },
-    capital: {
-      formula: "Higher relative interest rates attract capital inflows.",
-      explanation: "国内实际利率相对国外更高时，资本更可能流入；资本流入会影响本币需求和汇率。",
-      controls: [
-        { key: "domesticRate", label: "Domestic Real Interest Rate 国内实际利率", defaultValue: 5, min: 0, max: 10, step: 0.1 },
-        { key: "foreignRate", label: "Foreign Real Interest Rate 国外实际利率", defaultValue: 3, min: 0, max: 10, step: 0.1 }
-      ]
     }
   };
   const config = configs[flowType];
@@ -2131,15 +2114,6 @@ function flowSummary(step) {
         feedback: Math.abs(gap) < 0.5
           ? `经常账户 ${formatNumber(currentAccount)} 与金融账户 ${formatNumber(financialAccount)} 相互抵消，国际收支平衡。`
           : `当前账户合计为 ${formatNumber(gap)}，尚未满足 CA + FA = 0。进口变化只改变经常账户；请独立调整金融流入或流出。`
-      };
-    }
-    case "capital": {
-      const spread = value("domesticRate") - value("foreignRate");
-      const flow = spread * 20;
-      return {
-        total: flow > 0 ? "Capital Inflow" : flow < 0 ? "Capital Outflow" : "Neutral Flow",
-        metrics: [["Rate Spread", spread], ["Estimated Capital Flow", flow], ["Currency Pressure", flow]],
-        feedback: spread > 0 ? "国内利率更高，资本流入压力上升，本币需求增加。" : spread < 0 ? "国外利率更高，资本外流压力上升，本币供给增加。" : "国内外利率接近，资本流动压力较小。"
       };
     }
     default:

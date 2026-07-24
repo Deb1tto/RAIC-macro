@@ -1,5 +1,5 @@
 {
-  "name": "raic-macro-unit-1",
+  "name": "raic-ap-macroeconomics",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -8,4 +8,3 @@
     "start": "python3 -m http.server 5173"
   }
 }
-

@@ -1,47 +1,51 @@
 # RAIC AP Macroeconomics
 
-Interactive AP Macroeconomics course prototype aligned to the College Board
-**AP Macroeconomics Course and Exam Description, Effective Fall 2026**.
+An interactive AP Macroeconomics course covering the six units and 42 topics
+in the College Board Course and Exam Description effective Fall 2026.
 
-## Run Locally
+**Live app:** [raic-macro.vercel.app](https://raic-macro.vercel.app)
 
-Open `index.html` directly, or run:
+## What It Includes
+
+- Integrated labs for all six AP Macroeconomics units
+- Interactive PPC, AD-AS, financial-market, Phillips Curve, and foreign-exchange diagrams
+- Continuous sliders and draggable SVG points
+- Single-answer and multiple-answer concept matching
+- Direct navigation between labs in the same unit
+- Topic coverage, exam weighting, and suggested class periods
+
+The course groups related topics into larger labs instead of creating one page
+for every topic. See [docs/course-architecture.md](docs/course-architecture.md)
+for the complete topic-to-lab map.
+
+## Technology
+
+The app is a dependency-free static site built with HTML, CSS, and JavaScript.
+Charts are hand-authored SVG components, and lesson content is configuration
+driven. Vercel deploys the production site from `main`.
+
+## Local Development
 
 ```bash
 npm run start
 ```
 
-Then visit:
+Open `http://localhost:5173`.
 
-```text
-http://localhost:5173/
-```
-
-## Course Architecture
-
-- 6 official units
-- 42 official CED topics
-- Topic-to-lab coverage shown directly on the course map and unit pages
-- A small number of integrated labs per unit rather than one page per topic
-- Official exam weighting and suggested class periods from the 2026 CED
-- Same-unit Lab navigation, continuous sliders, SVG point drag, and single/multiple concept matching
-- Reserve Market inside Monetary Policy and capital-flow reasoning inside Foreign Exchange Market
-
-See `AP_MACRO_KNOWLEDGE_ARCHITECTURE.md` for the complete topic-to-lab map.
-
-## Structure
-
-- `index.html`: static app entry
-- `src/app.js`: course map, CED topic catalog, lab configuration, and interactions
-- `src/styles.css`: visual system and responsive states
-- `src/types.ts`: intended typed configuration model
-- `src/data/macro-unit1.ts`: typed reference configuration retained for migration
-
-## Verify
+## Verification
 
 ```bash
 npm run check
 git diff --check
 ```
 
-The runtime also rejects missing or duplicate mappings across the 42 official CED Topics.
+The runtime also validates that all 42 official topics are mapped exactly once.
+
+## Repository Structure
+
+- `index.html`: application entry point
+- `src/app.js`: course data, components, and interactions
+- `src/styles.css`: visual system and responsive layouts
+- `src/types.ts`: configuration type definitions
+- `docs/course-architecture.md`: public curriculum map
+- `vercel.json`: production routing configuration

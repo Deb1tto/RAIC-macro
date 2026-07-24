@@ -48,6 +48,7 @@ export interface ClassificationCategory {
   id: string;
   label: string;
   hint: string;
+  color?: string;
 }
 
 export interface ClassificationItem {
@@ -69,6 +70,15 @@ export interface CycleStage {
   policy?: string;
 }
 
+export interface FormulaPart {
+  text: string;
+  tone?: "employed" | "unemployed" | "not-in-labor-force";
+}
+
+export type FormulaLine = string | {
+  parts: FormulaPart[];
+};
+
 export interface LessonConfig {
   id: string;
   label: string;
@@ -79,6 +89,7 @@ export interface LessonConfig {
   explanation: string;
   example?: string;
   formula?: string;
+  formulaLines?: FormulaLine[];
   formulaType?: FormulaType;
   marketType?: "product" | "reserve" | "money" | "loanable" | "forex";
   flowType?: "bank" | "multiplier" | "bop" | "capital";

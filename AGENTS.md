@@ -24,6 +24,7 @@ This folder contains a lightweight AP Macroeconomics MVP for an interactive econ
 
 ## Implementation Progress
 
+- Feedback integration: Phase 1 and Phase 2 complete on `codex/feedback-integration`. Global navigation/formula deduplication is in place; Unit 1 comparative advantage and Unit 2 GDP, CPI, labor, and business-cycle feedback have been revised and checkpointed by phase.
 - Course shell: complete. The app uses a 6-unit course map, unit pages, and lab pages.
 - Full lab data: complete. All planned placeholders have been replaced with first-version interactive labs.
 - Interactions: complete. Unit and lab cards are whole-card clickable with keyboard entry; homepage units remember accordion state; lab pages include a same-unit lab sidebar for direct switching; sliders update locally; PPC point drag remains smooth; formula and policy sections can be toggled.

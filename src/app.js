@@ -82,7 +82,10 @@ const courseUnits = [
             title: "Opportunity cost table",
             description: "调节两个国家的最大产量，观察谁有较低机会成本。",
             componentType: "comparative",
-            formula: "Comparative advantage depends on lower opportunity cost.",
+            formulaLines: [
+              "Absolute advantage = can produce more with the same resources.",
+              "Comparative advantage = has the lower opportunity cost."
+            ],
             explanation: "绝对优势比较产量高低；比较优势比较机会成本。AP Macro 中贸易题通常要求说明谁应该专业化生产哪种商品。",
             controls: [
               { key: "aX", label: "Country A max X", defaultValue: 80, min: 20, max: 140, step: 1 },
@@ -112,29 +115,90 @@ const courseUnits = [
     focus: "GDP / CPI / Labor / Business Cycle",
     accent: "from-labor",
     labs: [
-      classificationLab("measuring-output", "Unit 2", "Measuring Output", "衡量总产出", "把 GDP 例子连到正确概念，先判断是否计入，再区分名义、实际和 deflator。", {
-        formula: "GDP = final goods and services produced within a country in a given period.",
-        explanation: "GDP 题不只是在算 C + I + G + NX。AP 常先考概念判断：是否是境内、本期、最终产品或服务；再区分名义 GDP、实际 GDP 和 GDP deflator。",
-        categories: [
-          { id: "counted-gdp", label: "Counted in GDP 计入 GDP", hint: "境内、本期、最终产品或服务" },
-          { id: "not-counted", label: "Not counted 不计入 GDP", hint: "中间品、二手交易、金融交易或国外生产" },
-          { id: "nominal-gdp", label: "Nominal GDP 名义 GDP", hint: "使用当年价格" },
-          { id: "real-gdp", label: "Real GDP 实际 GDP", hint: "使用基期价格衡量真实产量" },
-          { id: "gdp-deflator", label: "GDP Deflator", hint: "Nominal GDP / Real GDP x 100" },
-          { id: "gdp-limitation", label: "GDP Limitation GDP 的局限", hint: "未计入生活质量、分配、非市场活动或环境代价" }
-        ],
-        items: [
-          { id: "new-domestic-laptop", label: "A household buys a new laptop produced domestically this year", correct: "counted-gdp" },
-          { id: "government-teacher", label: "A public school pays a teacher's salary", correct: "counted-gdp" },
-          { id: "used-car", label: "A family buys a used car from another household", correct: "not-counted" },
-          { id: "bakery-flour", label: "A bakery buys flour to make bread for sale", correct: "not-counted" },
-          { id: "current-price-output", label: "Output valued using this year's prices", correct: "nominal-gdp" },
-          { id: "base-price-output", label: "Output valued using base-year prices", correct: "real-gdp" },
-          { id: "price-index-ratio", label: "Nominal GDP divided by Real GDP, then multiplied by 100", correct: "gdp-deflator" },
-          { id: "unpaid-care", label: "Unpaid household care creates value but is not recorded in GDP", correct: "gdp-limitation" },
-          { id: "pollution-cost", label: "GDP can rise while pollution and other social costs worsen", correct: "gdp-limitation" }
+      {
+        id: "measuring-output",
+        unit: "Unit 2",
+        title: "Measuring Output",
+        subtitle: "衡量总产出",
+        description: "先判断是否计入 GDP，再分别处理名义与实际 GDP、deflator 和 GDP 的局限。",
+        accent: "from-output",
+        steps: [
+          {
+            id: "gdp-boundary",
+            label: "Step 1",
+            title: "What counts in GDP?",
+            description: "只判断交易是否属于本期、境内生产的最终商品或服务。",
+            componentType: "classification",
+            formulaLines: ["GDP counts final goods and services produced domestically in the current period."],
+            explanation: "中间品、二手交易、金融资产交易和国外生产不进入本国当期 GDP；政府购买的最终服务会计入。",
+            categories: [
+              { id: "counted-gdp", label: "Counted in GDP 计入 GDP", hint: "境内、本期、最终产品或服务", color: "#2f9478" },
+              { id: "not-counted", label: "Not counted 不计入 GDP", hint: "中间品、二手交易、金融交易或国外生产", color: "#c64861" }
+            ],
+            items: [
+              { id: "new-domestic-laptop", label: "A new laptop produced domestically this year", correct: "counted-gdp" },
+              { id: "government-teacher", label: "A public school pays a teacher's salary", correct: "counted-gdp" },
+              { id: "used-car", label: "A household buys a used car from another household", correct: "not-counted" },
+              { id: "bakery-flour", label: "A bakery buys flour used in bread sold this year", correct: "not-counted" }
+            ]
+          },
+          {
+            id: "nominal-real",
+            label: "Step 2",
+            title: "Nominal GDP or Real GDP?",
+            description: "把价格口径与正确的 GDP 指标连线。",
+            componentType: "classification",
+            formulaLines: [
+              "Nominal GDP uses current-year prices.",
+              "Real GDP uses base-year prices."
+            ],
+            explanation: "名义 GDP 同时受价格和产量影响；实际 GDP 固定价格口径，更适合比较真实产量。",
+            categories: [
+              { id: "nominal-gdp", label: "Nominal GDP 名义 GDP", hint: "使用当年价格", color: "#d06732" },
+              { id: "real-gdp", label: "Real GDP 实际 GDP", hint: "使用基期价格", color: "#2f6fb4" }
+            ],
+            items: [
+              { id: "current-price-output", label: "Output valued using this year's prices", correct: "nominal-gdp" },
+              { id: "base-price-output", label: "Output valued using base-year prices", correct: "real-gdp" },
+              { id: "price-and-output-change", label: "Changes when either prices or output change", correct: "nominal-gdp" },
+              { id: "output-only-change", label: "Changes only when real output changes", correct: "real-gdp" }
+            ]
+          },
+          {
+            id: "gdp-deflator",
+            label: "Step 3",
+            title: "GDP Deflator",
+            description: "用名义 GDP 与实际 GDP 计算总体价格指数。",
+            componentType: "formula",
+            formulaType: "gdp-deflator",
+            formulaLines: ["GDP Deflator", "= Nominal GDP / Real GDP x 100"],
+            explanation: "GDP deflator 的基期为 100。结果应解释为相对基期的价格水平，而不是绝对金额。",
+            controls: [
+              { key: "nominalGDP", label: "Nominal GDP 名义 GDP", defaultValue: 1200, min: 400, max: 2400, step: 10 },
+              { key: "realGDP", label: "Real GDP 实际 GDP", defaultValue: 1000, min: 400, max: 2400, step: 10 }
+            ]
+          },
+          {
+            id: "gdp-limitations",
+            label: "Step 4",
+            title: "What GDP does not show",
+            description: "识别 GDP 不能直接衡量的社会结果。",
+            componentType: "classification",
+            formulaLines: ["GDP measures production, not overall well-being."],
+            explanation: "GDP 不直接展示收入分配、环境代价、闲暇、生活质量和未进入市场的生产。",
+            categories: [
+              { id: "measured-output", label: "Measured by GDP GDP 可衡量", hint: "市场生产的最终商品与服务", color: "#2f9478" },
+              { id: "gdp-limitation", label: "GDP Limitation GDP 的局限", hint: "生活质量、分配、非市场活动或环境代价", color: "#a855f7" }
+            ],
+            items: [
+              { id: "final-output-value", label: "The market value of domestically produced final output", correct: "measured-output" },
+              { id: "unpaid-care", label: "The value created by unpaid household care", correct: "gdp-limitation" },
+              { id: "income-distribution", label: "How evenly income is distributed", correct: "gdp-limitation" },
+              { id: "pollution-cost", label: "Whether production caused environmental damage", correct: "gdp-limitation" }
+            ]
+          }
         ]
-      }),
+      },
       {
         id: "measuring-prices",
         unit: "Unit 2",
@@ -150,7 +214,7 @@ const courseUnits = [
             description: "用固定购物篮观察生活成本如何变化。",
             componentType: "composition",
             mode: "cpi",
-            formula: "CPI = Current Basket Cost / Base Basket Cost x 100",
+            formulaLines: ["CPI", "= Current Basket Cost / Base Basket Cost x 100"],
             explanation: "CPI 使用固定消费篮子衡量居民购买同一组商品和服务的成本变化。",
             parts: [
               { key: "food", label: "Food 食品", defaultValue: 120, min: 60, max: 240, step: 5, baseValue: 100, color: "#d07f46" },
@@ -166,7 +230,7 @@ const courseUnits = [
             description: "根据上期 CPI 和本期 CPI 计算通货膨胀率。",
             componentType: "formula",
             formulaType: "inflation-rate",
-            formula: "Inflation Rate = (Current CPI - Previous CPI) / Previous CPI x 100",
+            formulaLines: ["Inflation Rate", "= (Current CPI - Previous CPI) / Previous CPI x 100"],
             explanation: "通货膨胀率衡量整体价格水平相对上一期的百分比变化。",
             controls: [
               { key: "previousCPI", label: "Previous CPI 上期 CPI", defaultValue: 100, min: 50, max: 200, step: 1 },
@@ -190,12 +254,37 @@ const courseUnits = [
             description: "区分 employed、unemployed 和 not in labor force，并同时计算失业率和 LFPR。",
             componentType: "composition",
             mode: "labor",
-            formula: "Labor Force = Employed + Unemployed; Unemployment Rate = Unemployed / Labor Force x 100; LFPR = Labor Force / Adult Population x 100",
+            formulaLines: [
+              { parts: [{ text: "Labor Force = " }, { text: "Employed", tone: "employed" }, { text: " + " }, { text: "Unemployed", tone: "unemployed" }] },
+              { parts: [{ text: "Unemployment Rate = " }, { text: "Unemployed", tone: "unemployed" }, { text: " / (" }, { text: "Employed", tone: "employed" }, { text: " + " }, { text: "Unemployed", tone: "unemployed" }, { text: ") x 100" }] },
+              { parts: [{ text: "LFPR = (" }, { text: "Employed", tone: "employed" }, { text: " + " }, { text: "Unemployed", tone: "unemployed" }, { text: ") / (" }, { text: "Employed", tone: "employed" }, { text: " + " }, { text: "Unemployed", tone: "unemployed" }, { text: " + " }, { text: "Not in Labor Force", tone: "not-in-labor-force" }, { text: ") x 100" }] }
+            ],
             explanation: "劳动力人口包括就业者和正在找工作的失业者；不找工作的人不在劳动力人口中。把三个公式放在同一页，能直接比较 unemployment rate 和 LFPR。",
             parts: [
               { key: "employed", label: "Employed 就业者", defaultValue: 90, min: 40, max: 180, step: 1, color: "#4cb7ab" },
               { key: "unemployed", label: "Unemployed 失业者", defaultValue: 10, min: 0, max: 60, step: 1, color: "#c64861" },
               { key: "notInLaborForce", label: "Not in Labor Force 非劳动力", defaultValue: 50, min: 0, max: 120, step: 1, color: "#a855f7" }
+            ]
+          },
+          {
+            id: "labor-status",
+            label: "Step 2",
+            title: "Who is in the labor force?",
+            description: "根据是否工作、是否可工作以及是否积极求职进行分类。",
+            componentType: "classification",
+            formulaLines: ["Unemployed means not working, available for work, and actively seeking a job."],
+            explanation: "退休者、全日制学生、照顾家庭者和停止找工作的 discouraged workers 通常不在劳动力人口中；有兼职工作的人属于 employed。",
+            categories: [
+              { id: "employed-status", label: "Employed 就业者", hint: "有带薪工作，包括兼职", color: "#4cb7ab" },
+              { id: "unemployed-status", label: "Unemployed 失业者", hint: "无工作、可工作且积极求职", color: "#c64861" },
+              { id: "nilf-status", label: "Not in Labor Force 非劳动力", hint: "没有工作且未积极求职", color: "#a855f7" }
+            ],
+            items: [
+              { id: "part-time-worker", label: "Works ten hours per week at a cafe", correct: "employed-status" },
+              { id: "active-job-seeker", label: "Has no job and applied to three jobs this week", correct: "unemployed-status" },
+              { id: "discouraged-worker", label: "Wants a job but stopped searching months ago", correct: "nilf-status" },
+              { id: "retired-person", label: "Retired and is not looking for work", correct: "nilf-status" },
+              { id: "student-not-seeking", label: "Full-time student with no job who is not seeking work", correct: "nilf-status" }
             ]
           }
         ]
@@ -212,7 +301,7 @@ const courseUnits = [
             id: "click-stage",
             label: "Step 1",
             title: "Business cycle stages",
-            description: "点击阶段查看 Real GDP、失业、通胀和可选政策反应。",
+            description: "点击扩张或衰退查看曲线段；点击峰值或谷底查看转折点。",
             componentType: "cycle",
             explanation: "同一条商业周期曲线可以用于观察不同阶段的宏观变量状态。长期增长趋势向上，短期波动围绕趋势线展开。"
           }
@@ -1247,6 +1336,26 @@ function calculateFormula(step) {
   }
 }
 
+function renderFormulaBlock(step) {
+  const lines = step.formulaLines ?? (step.formula ? [step.formula] : []);
+  if (!lines.length) return "";
+
+  return `
+    <div class="formula-display">
+      ${lines.map((line) => {
+        if (typeof line === "string") return `<div class="formula-line">${line}</div>`;
+        return `
+          <div class="formula-line">
+            ${(line.parts ?? []).map((part) => `
+              <span class="formula-token ${part.tone ? `tone-${part.tone}` : ""}">${part.text}</span>
+            `).join("")}
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
 function renderFormulaInteractive(step) {
   const result = calculateFormula(step);
   const maxValue = Math.max(...result.metrics.map((entry) => Math.abs(entry[1])), 1);
@@ -1256,7 +1365,7 @@ function renderFormulaInteractive(step) {
         <h2>${step.title}</h2>
         <p>${step.description}</p>
       </div>
-      <div class="formula-display">${step.formula}</div>
+      ${renderFormulaBlock(step)}
       <div class="bar-chart" aria-label="${step.title} chart">
         ${result.metrics.map(([label, amount]) => {
           const width = Math.max(8, Math.abs(amount) / maxValue * 100);
@@ -1318,44 +1427,65 @@ function renderCompositionBlocks(step) {
   const parts = step.parts ?? [];
   const summary = compositionSummary(step);
   const positiveTotal = parts.reduce((sum, part) => sum + Math.max(value(part.key), 0), 0) || 1;
+  const baseTotal = parts.reduce((sum, part) => sum + (part.baseValue ?? 0), 0);
+  const basketScale = Math.max(positiveTotal, baseTotal, 1);
+  const renderBasket = (label, amounts, indexLabel) => {
+    const total = amounts.reduce((sum, amount) => sum + amount, 0);
+    return `
+      <div class="basket-row">
+        <div class="basket-row-heading">
+          <strong>${label}</strong>
+          <span>${formatNumber(total)} · Index ${indexLabel}</span>
+        </div>
+        <div class="basket-scale">
+          <div class="basket-bar" style="width:${total / basketScale * 100}%">
+            ${parts.map((part, index) => `
+              <div style="width:${amounts[index] / Math.max(total, 1) * 100}%; background:${part.color}" title="${part.label}: ${formatNumber(amounts[index])}">
+                <span>${part.label.split(" ")[0]}</span>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      </div>
+    `;
+  };
   return `
     <section class="panel visual-panel">
       <div class="panel-heading">
         <h2>${step.title}</h2>
         <p>${step.description}</p>
       </div>
-      <div class="formula-display">${step.formula}</div>
-      <div class="composition-strip" aria-label="${step.title} blocks">
-        ${parts.map((part) => {
-          const amount = value(part.key);
-          const width = Math.max(8, Math.abs(amount) / positiveTotal * 100);
-          return `
-            <div class="composition-block ${amount < 0 ? "is-negative" : ""}" style="width:${width}%; background:${part.color}">
-              <span>${part.shortLabel ?? part.label}</span>
-              <strong>${formatNumber(amount)}</strong>
-            </div>
-          `;
-        }).join("")}
-      </div>
-      ${step.mode === "cpi" || step.mode === "labor" ? `
+      ${renderFormulaBlock(step)}
+      ${step.mode === "cpi" ? `
+        <div class="basket-comparison" aria-label="Base and current CPI baskets on one fixed scale">
+          ${renderBasket("Base Basket", parts.map((part) => part.baseValue ?? 0), "100")}
+          ${renderBasket("Current Basket", parts.map((part) => value(part.key)), formatNumber(summary.metrics[2][1]))}
+        </div>
+      ` : `
+        <div class="composition-strip" aria-label="${step.title} blocks">
+          ${parts.map((part) => {
+            const amount = value(part.key);
+            const width = Math.max(8, Math.abs(amount) / positiveTotal * 100);
+            return `
+              <div class="composition-block ${amount < 0 ? "is-negative" : ""}" style="width:${width}%; background:${part.color}">
+                <span>${part.shortLabel ?? part.label}</span>
+                <strong>${formatNumber(amount)}</strong>
+              </div>
+            `;
+          }).join("")}
+        </div>
+      `}
+      ${step.mode === "cpi" ? `
         <button class="inline-toggle ${state.showFormulaDetails ? "is-active" : ""}" data-toggle-formula type="button">
-          ${state.showFormulaDetails ? "Hide formula details" : "Show formula details"}
+          ${state.showFormulaDetails ? "Hide basket calculation" : "Show basket calculation"}
         </button>
       ` : ""}
       ${step.mode === "cpi" && state.showFormulaDetails ? `
         <div class="formula-breakdown">
-          <span>Basket formula</span>
+          <span>Numeric substitution</span>
           <strong>Base basket = ${parts.map((part) => `${formatNumber(part.baseValue)} ${part.label.split(" ")[0]}`).join(" + ")} = ${formatNumber(summary.metrics[0][1])}</strong>
           <strong>Current basket = ${parts.map((part) => `${formatNumber(value(part.key))} ${part.label.split(" ")[0]}`).join(" + ")} = ${formatNumber(summary.metrics[1][1])}</strong>
-          <strong>CPI = Current Basket / Base Basket x 100 = ${formatNumber(summary.metrics[2][1])}</strong>
-        </div>
-      ` : ""}
-      ${step.mode === "labor" && state.showFormulaDetails ? `
-        <div class="formula-breakdown">
-          <span>Labor formulas</span>
-          <strong>Labor Force = Employed + Unemployed = ${formatNumber(summary.metrics[3][1])}</strong>
-          <strong>Unemployment Rate = Unemployed / Labor Force x 100 = ${formatNumber(summary.metrics[4][1])}%</strong>
-          <strong>LFPR = Labor Force / Adult Population x 100 = ${formatNumber(summary.metrics[5][1])}%</strong>
+          <strong>${formatNumber(summary.metrics[1][1])} / ${formatNumber(summary.metrics[0][1])} x 100 = ${formatNumber(summary.metrics[2][1])}</strong>
         </div>
       ` : ""}
       ${renderMetrics(summary.metrics)}
@@ -1402,7 +1532,7 @@ function renderClassification(step) {
         <h2>${step.title}</h2>
         <p>${step.description}</p>
       </div>
-      <div class="formula-display">${step.formula}</div>
+      ${renderFormulaBlock(step)}
       <div class="matching-board" data-matching-board aria-label="${step.title} matching board">
         <svg class="matching-lines" data-matching-lines></svg>
         <div class="matching-column">
@@ -1478,7 +1608,7 @@ function renderAllocation(step) {
         <h2>${step.title}</h2>
         <p>${step.description}</p>
       </div>
-      <div class="formula-display">${step.formula}</div>
+      ${renderFormulaBlock(step)}
       <div class="allocation-chart" aria-label="${step.title} allocation chart">
         <div class="allocation-segment primary" style="width:${leftWidth}%">
           <strong>${formatNumber(left)}</strong>
@@ -1578,15 +1708,24 @@ function comparativeSummary() {
   const sameY = Math.abs(ocAY - ocBY) < 0.01;
   const xAdvantage = sameX ? "No country" : ocAX < ocBX ? "Country A" : "Country B";
   const yAdvantage = sameY ? "No country" : ocAY < ocBY ? "Country A" : "Country B";
+  const absoluteX = value("aX") === value("bX") ? "Tie" : value("aX") > value("bX") ? "Country A" : "Country B";
+  const absoluteY = value("aY") === value("bY") ? "Tie" : value("aY") > value("bY") ? "Country A" : "Country B";
+  const statements = [
+    `Absolute advantage in Good X: ${absoluteX}`,
+    `Absolute advantage in Good Y: ${absoluteY}`,
+    `Comparative advantage in Good X: ${xAdvantage}`,
+    `Comparative advantage in Good Y: ${yAdvantage}`
+  ];
   return {
     total: sameX ? "No comparative advantage in X" : `${xAdvantage} in X`,
     metrics: [["A cost of X", ocAX], ["B cost of X", ocBX], ["A cost of Y", ocAY], ["B cost of Y", ocBY]],
-    feedback: `${sameX ? "Both countries have the same opportunity cost for Good X, so neither has comparative advantage in X" : `${xAdvantage} has comparative advantage in Good X`}; ${sameY ? "both countries have the same opportunity cost for Good Y, so neither has comparative advantage in Y" : `${yAdvantage} has comparative advantage in Good Y`}.`
+    statements,
+    feedback: statements.join(". ")
   };
 }
 
 function renderComparative(step) {
-  const max = Math.max(value("aX"), value("aY"), value("bX"), value("bY"), 100);
+  const max = 140;
   const toX = (dataX) => 70 + dataX / max * 230;
   const toY = (dataY) => 330 - dataY / max * 230;
   const toX2 = (dataX) => 380 + dataX / max * 230;
@@ -1597,6 +1736,7 @@ function renderComparative(step) {
         <h2>${step.title}</h2>
         <p>${step.description}</p>
       </div>
+      ${renderFormulaBlock(step)}
       <svg viewBox="0 0 680 390" class="chart-svg" aria-label="Comparative advantage PPC charts">
         <line x1="70" y1="330" x2="320" y2="330" class="axis"></line>
         <line x1="70" y1="80" x2="70" y2="330" class="axis"></line>
@@ -1608,9 +1748,11 @@ function renderComparative(step) {
         <text x="505" y="58" text-anchor="middle" class="chart-title">Country B</text>
         <text x="195" y="365" text-anchor="middle" class="chart-label">Good X</text>
         <text x="505" y="365" text-anchor="middle" class="chart-label">Good X</text>
+        <text x="46" y="90" text-anchor="end" class="chart-label">140</text>
+        <text x="356" y="90" text-anchor="end" class="chart-label">140</text>
       </svg>
-      <div class="ap-answer-strip">
-        <div><span>AP input check</span><strong>${summary.feedback}</strong></div>
+      <div class="comparative-results" aria-label="Absolute and comparative advantage conclusions">
+        ${summary.statements.map((statement) => `<div>${statement}</div>`).join("")}
       </div>
       ${renderMetrics(summary.metrics)}
     </section>
@@ -1688,7 +1830,7 @@ function renderFiscal(step) {
           <h2>${step.title}</h2>
           <p>${step.description}</p>
         </div>
-        <div class="formula-display">${step.formula}</div>
+        ${renderFormulaBlock(step)}
         <div class="multiplier-compare">
           <article>
             <span>Spending Multiplier</span>
@@ -1716,7 +1858,7 @@ function renderFiscal(step) {
         <h2>${step.title}</h2>
         <p>${step.description}</p>
       </div>
-      <div class="formula-display">${step.formula}</div>
+      ${renderFormulaBlock(step)}
       <div class="policy-flow">
         <span>Fiscal Shock</span>
         <strong>${summary.total}</strong>
@@ -1833,7 +1975,7 @@ function renderFlow(step) {
         <h2>${step.title}</h2>
         <p>${step.description}</p>
       </div>
-      <div class="formula-display">${step.formula}</div>
+      ${renderFormulaBlock(step)}
       <div class="flow-diagram" aria-label="${step.title} flow diagram">
         ${summary.metrics.map(([label, amount], index) => {
           const width = Math.max(12, Math.abs(amount) / maxValue * 100);
@@ -1893,7 +2035,11 @@ function renderPhillips(step) {
 
 function renderCycleChart(lab, step) {
   const stage = (lab.stages ?? []).find((item) => item.key === state.selectedStage) ?? lab.stages?.[0];
-  const stagePoints = { expansion: [170, 178], peak: [270, 90], recession: [410, 225], trough: [500, 300] };
+  const pointStages = { peak: [270, 90], trough: [500, 300] };
+  const segmentStages = {
+    expansion: "M 70 270 L 180 170 L 270 90",
+    recession: "M 270 90 L 390 210 L 500 300"
+  };
   return `
     <section class="panel visual-panel">
       <div class="panel-heading">
@@ -1908,8 +2054,13 @@ function renderCycleChart(lab, step) {
         <line x1="78" y1="250" x2="615" y2="150" class="reference-line"></line>
         <text x="465" y="143" class="chart-label">Long-run growth trend</text>
         <path d="M 70 270 L 180 170 L 270 90 L 390 210 L 500 300 L 610 190" class="cycle-line"></path>
+        ${Object.entries(segmentStages).map(([key, path]) => `
+          <path d="${path}" class="cycle-phase ${state.selectedStage === key ? "is-active" : ""}" data-stage="${key}"></path>
+        `).join("")}
         <text x="275" y="315" class="chart-label">Short-run fluctuations</text>
-        ${Object.entries(stagePoints).map(([key, point]) => {
+        <text x="155" y="205" class="cycle-phase-label">Expansion</text>
+        <text x="375" y="175" class="cycle-phase-label">Recession</text>
+        ${Object.entries(pointStages).map(([key, point]) => {
           const data = lab.stages.find((item) => item.key === key);
           return `
             <g class="cycle-stage ${state.selectedStage === key ? "is-active" : ""}" data-stage="${key}">
@@ -2099,6 +2250,9 @@ function bindStageEvents() {
   for (const button of document.querySelectorAll("[data-stage]")) {
     button.addEventListener("click", () => {
       state.selectedStage = button.dataset.stage;
+      for (const stageButton of document.querySelectorAll(".stage-button")) {
+        stageButton.classList.toggle("is-active", stageButton.dataset.stage === state.selectedStage);
+      }
       renderMainColumnOnly();
     });
   }

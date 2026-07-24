@@ -791,6 +791,84 @@ button {
   font-weight: 800;
 }
 
+.formula-line {
+  display: block;
+  line-height: 1.55;
+}
+
+.formula-line + .formula-line {
+  margin-top: 4px;
+}
+
+.formula-token.tone-employed {
+  color: #167c72;
+  background: rgba(76, 183, 171, 0.16);
+}
+
+.formula-token.tone-unemployed {
+  color: #a62f4a;
+  background: rgba(198, 72, 97, 0.14);
+}
+
+.formula-token.tone-not-in-labor-force {
+  color: #7b35bd;
+  background: rgba(168, 85, 247, 0.13);
+}
+
+.formula-token[class*="tone-"] {
+  border-radius: 4px;
+  padding: 1px 3px;
+}
+
+.basket-comparison {
+  display: grid;
+  gap: 18px;
+  margin: 20px 0;
+}
+
+.basket-row {
+  display: grid;
+  gap: 8px;
+}
+
+.basket-row-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.basket-row-heading span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.basket-scale {
+  height: 58px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(31, 42, 55, 0.06);
+}
+
+.basket-bar {
+  display: flex;
+  height: 100%;
+  min-width: 2px;
+  overflow: hidden;
+  transition: width 160ms ease;
+}
+
+.basket-bar > div {
+  display: grid;
+  min-width: 20px;
+  place-items: center;
+  overflow: hidden;
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
 .composition-strip {
   display: flex;
   min-height: 128px;
@@ -962,6 +1040,31 @@ button {
   stroke-linejoin: round;
 }
 
+.cycle-phase {
+  fill: none;
+  stroke: transparent;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 15;
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.cycle-phase:hover {
+  stroke: rgba(47, 111, 180, 0.22);
+}
+
+.cycle-phase.is-active {
+  stroke: var(--accent-4);
+}
+
+.cycle-phase-label {
+  fill: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+  pointer-events: none;
+}
+
 .model-line,
 .reference-line,
 .lras-line {
@@ -1051,6 +1154,23 @@ button {
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.72);
   padding: 16px;
+}
+
+.comparative-results {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.comparative-results div {
+  border-left: 4px solid var(--accent-2);
+  border-radius: 4px;
+  background: rgba(47, 111, 180, 0.07);
+  padding: 10px 12px;
+  color: var(--ink);
+  font-weight: 800;
+  line-height: 1.4;
 }
 
 .stage-summary p {
@@ -1580,6 +1700,10 @@ button {
 
   .matching-board,
   .multiplier-compare {
+    grid-template-columns: 1fr;
+  }
+
+  .comparative-results {
     grid-template-columns: 1fr;
   }
 

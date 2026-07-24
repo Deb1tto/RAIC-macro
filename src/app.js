@@ -346,7 +346,7 @@ const courseUnits = [
             title: "Demand and supply shocks",
             description: "移动 AD 和 SRAS，观察短期均衡如何变化。",
             componentType: "adas",
-            formula: "Short-run equilibrium is where AD intersects SRAS.",
+            formulaLines: ["Short-run equilibrium", "= intersection of AD and SRAS"],
             explanation: "AD 右移通常提高实际 GDP 和价格水平；SRAS 左移通常降低实际 GDP 并提高价格水平。",
             controls: [
               { key: "adShift", label: "AD Shift 总需求移动", defaultValue: 0, min: -40, max: 40, step: 1 },
@@ -370,7 +370,7 @@ const courseUnits = [
             title: "Compare Y and Yf",
             description: "调节 AD 和潜在产出，判断经济缺口。",
             componentType: "adas",
-            formula: "Output Gap = Actual Real GDP - Potential GDP",
+            formulaLines: ["Output Gap", "= Actual Real GDP - Potential GDP"],
             explanation: "实际产出低于潜在产出是衰退缺口；实际产出高于潜在产出是通胀缺口。",
             controls: [
               { key: "adShift", label: "AD Shift 总需求移动", defaultValue: -15, min: -40, max: 40, step: 1 },
@@ -394,7 +394,10 @@ const courseUnits = [
             title: "Multiplier and AD",
             description: "用 MPC 和财政冲击估算 AD 变化。",
             componentType: "fiscal",
-            formula: "Spending Multiplier = 1 / (1 - MPC)",
+            formulaLines: [
+              "Spending Multiplier",
+              "= 1 / (1 - MPC)"
+            ],
             explanation: "扩张性财政政策会让 AD 右移；紧缩性财政政策会让 AD 左移。MPC 越高，支出乘数越大。",
             controls: [
               { key: "mpc", label: "MPC 边际消费倾向", defaultValue: 0.75, min: 0.2, max: 0.95, step: 0.01 },
@@ -418,7 +421,10 @@ const courseUnits = [
             title: "Multiplier size",
             description: "调节 MPC、政府支出和税收，比较乘数结果。",
             componentType: "fiscal",
-            formula: "Tax Multiplier = -MPC / (1 - MPC)",
+            formulaLines: [
+              "Tax Multiplier",
+              "= -MPC / (1 - MPC)"
+            ],
             explanation: "支出乘数通常大于税收乘数的绝对值，因为政府支出直接进入总需求，而减税先影响可支配收入和消费。",
             controls: [
               { key: "mpc", label: "MPC 边际消费倾向", defaultValue: 0.8, min: 0.2, max: 0.95, step: 0.01 },
@@ -1887,6 +1893,7 @@ function renderAdas(step) {
         <h2>${step.title}</h2>
         <p>${step.description}</p>
       </div>
+      ${renderFormulaBlock(step)}
       <svg viewBox="0 0 680 390" class="chart-svg" aria-label="AD-AS chart">
         <line x1="70" y1="330" x2="620" y2="330" class="axis"></line>
         <line x1="70" y1="45" x2="70" y2="330" class="axis"></line>

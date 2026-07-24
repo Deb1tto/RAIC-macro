@@ -5,8 +5,8 @@
   --paper: rgba(255, 252, 246, 0.88);
   --accent: #bf5b2c;
   --accent-2: #4cb7ab;
-  --accent-3: #4f75b0;
-  --accent-4: #8f85df;
+  --accent-3: #2f6fb4;
+  --accent-4: #a855f7;
   --shadow: 0 22px 42px rgba(31, 42, 55, 0.1);
 }
 
@@ -278,7 +278,7 @@ button {
 }
 
 .topic-map-heading span {
-  color: #4f75b0;
+  color: var(--accent-3);
   font-size: 0.75rem;
   font-weight: 900;
   letter-spacing: 0.08em;
@@ -1156,6 +1156,8 @@ button {
 .match-target.is-hovered {
   border-color: var(--match-color, var(--accent));
   background: color-mix(in srgb, var(--match-color, #bf5b2c) 12%, white);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--match-color, #bf5b2c) 18%, transparent);
+  transform: translateY(-1px);
 }
 
 .match-card.is-correct {
@@ -1166,6 +1168,12 @@ button {
 .match-card.is-wrong {
   border-color: rgba(198, 72, 97, 0.5);
   background: rgba(198, 72, 97, 0.1);
+}
+
+.match-card.is-wrong.is-selected {
+  border-color: #d69a22;
+  background: rgba(214, 154, 34, 0.14);
+  box-shadow: 0 0 0 3px rgba(214, 154, 34, 0.18);
 }
 
 .allocation-chart {
@@ -1192,7 +1200,7 @@ button {
 }
 
 .allocation-segment.secondary {
-  background: linear-gradient(135deg, #4cb7ab, #4f75b0);
+  background: linear-gradient(135deg, #4cb7ab, var(--accent-3));
 }
 
 .allocation-segment strong {
@@ -1239,7 +1247,7 @@ button {
 .flow-fill {
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, #4cb7ab, #8f85df);
+  background: linear-gradient(90deg, #4cb7ab, var(--accent-4));
 }
 
 .flow-fill.is-left {

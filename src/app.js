@@ -13,8 +13,8 @@ const courseUnits = [
         explanation: "基础经济概念更适合先做分类判断：先识别资源有限，再识别做出的选择，最后说清楚放弃了什么。",
         categories: [
           { id: "scarcity", label: "Scarcity 稀缺性", hint: "资源不足以满足所有欲望", color: "#c64861" },
-          { id: "choice", label: "Choice 选择", hint: "必须在选项中做决定", color: "#4f75b0" },
-          { id: "opportunity-cost", label: "Opportunity Cost 机会成本", hint: "被放弃的次优选择", color: "#8f85df" }
+          { id: "choice", label: "Choice 选择", hint: "必须在选项中做决定", color: "#2f6fb4" },
+          { id: "opportunity-cost", label: "Opportunity Cost 机会成本", hint: "被放弃的次优选择", color: "#a855f7" }
         ],
         items: [
           { id: "limited-time", label: "A student has only two hours after school", correct: "scarcity" },
@@ -155,8 +155,8 @@ const courseUnits = [
             parts: [
               { key: "food", label: "Food 食品", defaultValue: 120, min: 60, max: 240, step: 5, baseValue: 100, color: "#d07f46" },
               { key: "rent", label: "Rent 房租", defaultValue: 650, min: 400, max: 1000, step: 10, baseValue: 600, color: "#4cb7ab" },
-              { key: "gas", label: "Gas 汽油", defaultValue: 90, min: 40, max: 180, step: 5, baseValue: 80, color: "#4f75b0" },
-              { key: "clothing", label: "Clothing 服装", defaultValue: 140, min: 80, max: 260, step: 5, baseValue: 120, color: "#8f85df" }
+              { key: "gas", label: "Gas 汽油", defaultValue: 90, min: 40, max: 180, step: 5, baseValue: 80, color: "#2f6fb4" },
+              { key: "clothing", label: "Clothing 服装", defaultValue: 140, min: 80, max: 260, step: 5, baseValue: 120, color: "#a855f7" }
             ]
           },
           {
@@ -195,7 +195,7 @@ const courseUnits = [
             parts: [
               { key: "employed", label: "Employed 就业者", defaultValue: 90, min: 40, max: 180, step: 1, color: "#4cb7ab" },
               { key: "unemployed", label: "Unemployed 失业者", defaultValue: 10, min: 0, max: 60, step: 1, color: "#c64861" },
-              { key: "notInLaborForce", label: "Not in Labor Force 非劳动力", defaultValue: 50, min: 0, max: 120, step: 1, color: "#8f85df" }
+              { key: "notInLaborForce", label: "Not in Labor Force 非劳动力", defaultValue: 50, min: 0, max: 120, step: 1, color: "#a855f7" }
             ]
           }
         ]
@@ -1140,7 +1140,7 @@ function renderControls(lab, step) {
 
   return `
     <aside class="panel controls-panel">
-      <button class="back-button" data-back-unit>← ${currentUnit().label} Labs</button>
+      <button class="back-button" data-home>← Course Map</button>
       ${renderUnitLabSidebar(lab)}
       <div class="eyebrow">Controls</div>
       ${controlHtml || renderCycleButtons(lab)}
@@ -1150,6 +1150,8 @@ function renderControls(lab, step) {
 }
 
 function renderStepNav(lab, step) {
+  if (lab.steps.length <= 1) return "";
+
   return `
     <section class="panel step-nav-panel">
       <div class="step-nav-heading">
@@ -1414,6 +1416,7 @@ function renderClassification(step) {
                 draggable="true"
                 data-match-item="${item.id}"
                 data-correct-category="${item.correct}"
+                aria-pressed="${state.selectedMatchItem === item.id}"
                 style="${color ? `--match-color:${color}` : ""}">
                 <span>${item.label}</span>
                 ${assigned ? `<small>${isCorrect ? "Correct" : "Try again"}</small>` : ""}
@@ -1973,7 +1976,6 @@ function renderExplanation(step) {
       <div class="eyebrow">Concept</div>
       <h3>${step.title}</h3>
       <p>${step.explanation}</p>
-      ${step.formula ? `<div class="formula-note"><strong>Formula</strong><code>${step.formula}</code></div>` : ""}
     </aside>
   `;
 }
@@ -2019,9 +2021,9 @@ function renderLab() {
     <div class="page-shell">
       <header class="hero panel lab-hero ${lab.accent ?? currentUnit().accent}">
         <div>
-          <button class="ghost-button" data-back-unit>← ${currentUnit().label} Labs</button>
+          <button class="ghost-button" data-home>← Course Map</button>
           <span class="badge">${lab.unit}</span>
-          <span class="badge badge-soft">${lab.steps.length} Steps</span>
+          ${lab.steps.length > 1 ? `<span class="badge badge-soft">${lab.steps.length} Steps</span>` : ""}
         </div>
         <h1>${lab.title}</h1>
         <p>${lab.subtitle} · ${lab.description}</p>
@@ -2297,7 +2299,7 @@ function bindEvents() {
   }
   for (const button of document.querySelectorAll("[data-back-unit]")) {
     button.addEventListener("click", () => {
-      state.view = "unit";
+      state.view = "home";
       renderApp();
     });
   }

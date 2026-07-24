@@ -1,6 +1,7 @@
-# RAIC Macro Unit 1
+# RAIC AP Macroeconomics
 
-Interactive AP Macroeconomics Unit 1 prototype.
+Interactive AP Macroeconomics course prototype aligned to the College Board
+**AP Macroeconomics Course and Exam Description, Effective Fall 2026**.
 
 ## Run Locally
 
@@ -16,22 +17,20 @@ Then visit:
 http://localhost:5173/
 ```
 
+## Course Architecture
+
+- 6 official units
+- 42 official CED topics
+- Topic-to-lab coverage shown directly on the course map and unit pages
+- A small number of integrated labs per unit rather than one page per topic
+- Official exam weighting and suggested class periods from the 2026 CED
+
+See `AP_MACRO_KNOWLEDGE_ARCHITECTURE.md` for the complete topic-to-lab map.
+
 ## Structure
 
-- `index.html` is the static app entry.
-- `src/app.js` renders the interactive Unit 1 labs and steps.
-- `src/styles.css` contains the visual system.
-- `src/data/macro-unit1.ts` keeps the typed config reference for future migration.
-- `src/types.ts` defines the intended config types.
-
-## Content Model
-
-Unit 1 is organized as four labs:
-
-- Lab 1: Measuring Output
-- Lab 2: Measuring Prices
-- Lab 3: Measuring Labor Market
-- Lab 4: Business Cycle
-
-Each lab contains step-based interactions using reusable composition, formula, and cycle chart patterns.
-
+- `index.html`: static app entry
+- `src/app.js`: course map, CED topic catalog, lab configuration, and interactions
+- `src/styles.css`: visual system and responsive states
+- `src/types.ts`: intended typed configuration model
+- `src/data/macro-unit1.ts`: typed reference configuration retained for migration

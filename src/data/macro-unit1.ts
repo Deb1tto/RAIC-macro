@@ -1,158 +1,107 @@
 import type { LabConfig } from "../types";
 
+// Typed reference for the 2026 CED Unit 1 architecture.
+// The running static prototype currently reads the equivalent config from app.js.
 export const macroUnit1Labs: LabConfig[] = [
   {
-    id: "measuring-output",
-    unit: "Lab 1",
-    title: "Measuring Output",
-    subtitle: "衡量总产出",
-    description: "GDP、GDP components、Nominal GDP、Real GDP 与 GDP Deflator。",
+    id: "scarcity-choice",
+    unit: "Unit 1",
+    title: "Scarcity",
+    subtitle: "稀缺性",
+    description: "识别有限资源、选择与机会成本之间的关系。",
+    topics: ["1.1"],
     steps: [
       {
-        id: "gdp-components",
+        id: "scarcity-choice-classification",
         label: "Step 1",
-        title: "GDP components",
-        description: "用 GDP = C + I + G + NX 拆解总产出。",
-        componentType: "composition",
-        mode: "gdp",
-        formula: "GDP = C + I + G + NX",
-        explanation: "GDP 是一定时期内，一个经济体境内生产的最终产品和服务的市场价值。",
-        parts: [
-          { key: "consumption", label: "Consumption 消费", shortLabel: "C", defaultValue: 600, min: 0, max: 1000, step: 10 },
-          { key: "investment", label: "Investment 投资", shortLabel: "I", defaultValue: 200, min: 0, max: 600, step: 10 },
-          { key: "government", label: "Government Spending 政府支出", shortLabel: "G", defaultValue: 250, min: 0, max: 600, step: 10 },
-          { key: "netExports", label: "Net Exports 净出口", shortLabel: "NX", defaultValue: -50, min: -300, max: 300, step: 10 }
+        title: "Scarcity",
+        description: "把情境归入 scarcity、choice 或 opportunity cost。",
+        componentType: "classification",
+        formula: "Scarcity -> Choice -> Opportunity Cost",
+        explanation: "资源有限而欲望无限，因此个人与社会必须选择，并承担放弃的次优选择。",
+        categories: [
+          { id: "scarcity", label: "Scarcity 稀缺性", hint: "资源不能满足所有欲望" },
+          { id: "choice", label: "Choice 选择", hint: "在可行选项中作决定" },
+          { id: "opportunity-cost", label: "Opportunity Cost 机会成本", hint: "被放弃的次优选择" }
+        ],
+        items: [
+          { id: "limited-time", label: "A student has two hours after school", correct: "scarcity" },
+          { id: "study", label: "The student studies instead of working", correct: "choice" },
+          { id: "wage", label: "The forgone wage", correct: "opportunity-cost" }
         ]
-      },
-      {
-        id: "nominal-real-gdp",
-        label: "Step 2",
-        title: "Nominal vs Real GDP",
-        description: "观察价格和数量如何分别影响名义 GDP 与实际 GDP。",
-        componentType: "formula",
-        formulaType: "nominal-real-gdp",
-        formula: "Nominal GDP = Q x Current Price; Real GDP = Q x Base Year Price",
-        explanation: "名义 GDP 使用当年价格，实际 GDP 使用基期价格，因此实际 GDP 更适合衡量真实产出变化。"
-      },
-      {
-        id: "gdp-deflator",
-        label: "Step 3",
-        title: "GDP Deflator",
-        description: "用名义 GDP 和实际 GDP 衡量整体价格水平。",
-        componentType: "formula",
-        formulaType: "gdp-deflator",
-        formula: "GDP Deflator = Nominal GDP / Real GDP x 100",
-        explanation: "GDP Deflator 表示当前价格水平相对基期的变化。"
       }
     ]
   },
   {
-    id: "measuring-prices",
-    unit: "Lab 2",
-    title: "Measuring Prices",
-    subtitle: "衡量价格水平",
-    description: "CPI market basket、Inflation Rate 与价格状态判断。",
+    id: "ppc-opportunity-cost",
+    unit: "Unit 1",
+    title: "PPC and Opportunity Cost",
+    subtitle: "生产可能性曲线与机会成本",
+    description: "用 PPC 判断效率、不可达组合、机会成本与经济增长。",
+    topics: ["1.2"],
     steps: [
       {
-        id: "cpi-basket",
+        id: "ppc-drag-point",
         label: "Step 1",
-        title: "CPI market basket",
-        description: "用固定购物篮观察生活成本如何变化。",
-        componentType: "composition",
-        mode: "cpi",
-        formula: "CPI = Current Basket Cost / Base Basket Cost x 100",
-        explanation: "CPI 使用固定消费篮子衡量居民购买同一组商品和服务的成本变化。"
-      },
-      {
-        id: "inflation-rate",
-        label: "Step 2",
-        title: "Inflation rate",
-        description: "根据上期 CPI 和本期 CPI 计算通货膨胀率。",
-        componentType: "formula",
-        formulaType: "inflation-rate",
-        formula: "Inflation Rate = (Current CPI - Previous CPI) / Previous CPI x 100",
-        explanation: "通货膨胀率衡量整体价格水平相对上一期的百分比变化。"
-      },
-      {
-        id: "price-status",
-        label: "Step 3",
-        title: "Price status",
-        description: "根据 CPI 变化判断 inflation、deflation 或 price stability。",
-        componentType: "formula",
-        formulaType: "inflation-rate",
-        formula: "Compare Current CPI with Previous CPI",
-        explanation: "CPI 上升表示通胀，CPI 下降表示通缩，变化接近 0 表示价格稳定。"
+        title: "Production possibilities",
+        description: "拖动生产点并判断它与 PPC 的关系。",
+        componentType: "ppc",
+        formula: "The PPC shows maximum attainable output combinations.",
+        explanation: "曲线上是生产有效率，曲线内是低效率，曲线外在当前资源与技术下不可达。",
+        controls: [
+          { key: "goodX", label: "Consumer Goods", defaultValue: 42, min: 0, max: 105, step: 1 },
+          { key: "goodY", label: "Capital Goods", defaultValue: 68, min: 0, max: 105, step: 1 }
+        ]
       }
     ]
   },
   {
-    id: "labor-market",
-    unit: "Lab 3",
-    title: "Measuring Labor Market",
-    subtitle: "衡量劳动力市场",
-    description: "Labor Force、Unemployment Rate 与 Labor Force Participation Rate。",
+    id: "comparative-advantage",
+    unit: "Unit 1",
+    title: "Comparative Advantage",
+    subtitle: "比较优势与贸易收益",
+    description: "比较机会成本，判断专业化方向与互利贸易。",
+    topics: ["1.3"],
     steps: [
       {
-        id: "labor-composition",
+        id: "two-country-ppc",
         label: "Step 1",
-        title: "Labor force composition",
-        description: "区分 employed、unemployed 和 not in labor force。",
-        componentType: "composition",
-        mode: "labor",
-        formula: "Labor Force = Employed + Unemployed",
-        explanation: "劳动力人口包括就业者和正在找工作的失业者；不找工作的人不在劳动力人口中。"
-      },
-      {
-        id: "unemployment-rate",
-        label: "Step 2",
-        title: "Unemployment rate",
-        description: "用失业者占劳动力人口的比例计算失业率。",
-        componentType: "formula",
-        formulaType: "unemployment-rate",
-        formula: "Unemployment Rate = Unemployed / Labor Force x 100",
-        explanation: "失业率只计算劳动力人口中的失业者。"
-      },
-      {
-        id: "participation-rate",
-        label: "Step 3",
-        title: "Labor force participation rate",
-        description: "计算成年人中有多少人参与劳动市场。",
-        componentType: "formula",
-        formulaType: "labor-force-participation",
-        formula: "LFPR = Labor Force / Adult Population x 100",
-        explanation: "劳动力参与率和失业率不同；参与率下降可能说明更多人退出劳动市场。"
+        title: "Opportunity cost table",
+        description: "调节两个国家的最大产量并比较机会成本。",
+        componentType: "comparative",
+        formula: "Comparative advantage depends on lower opportunity cost.",
+        explanation: "比较优势决定专业化；只要机会成本不同，双方通常可以通过贸易获益。",
+        controls: [
+          { key: "aX", label: "Country A max X", defaultValue: 80, min: 20, max: 140, step: 1 },
+          { key: "aY", label: "Country A max Y", defaultValue: 40, min: 20, max: 140, step: 1 },
+          { key: "bX", label: "Country B max X", defaultValue: 50, min: 20, max: 140, step: 1 },
+          { key: "bY", label: "Country B max Y", defaultValue: 100, min: 20, max: 140, step: 1 }
+        ]
       }
     ]
   },
   {
-    id: "business-cycle",
-    unit: "Lab 4",
-    title: "Business Cycle",
-    subtitle: "商业周期",
-    description: "Expansion、Peak、Recession、Trough 与宏观政策反应。",
+    id: "market-fundamentals",
+    unit: "Unit 1",
+    title: "Demand, Supply, and Equilibrium",
+    subtitle: "需求、供给与市场均衡",
+    description: "分析需求、供给、短缺、剩余和均衡变化。",
+    topics: ["1.4", "1.5", "1.6"],
     steps: [
       {
-        id: "click-stage",
+        id: "market-fundamentals-equilibrium",
         label: "Step 1",
-        title: "Click stage",
-        description: "点击阶段查看 Real GDP、失业和通胀变化。",
-        componentType: "cycle",
-        explanation: "同一条商业周期曲线可以用于观察不同阶段的宏观变量状态。"
-      },
-      {
-        id: "policy-response",
-        label: "Step 2",
-        title: "Policy response",
-        description: "理解不同阶段可能对应的财政或货币政策反应。",
-        componentType: "cycle",
-        explanation: "宏观政策通常试图稳定产出、就业和价格水平。"
+        title: "Demand, Supply, and Equilibrium",
+        description: "移动需求与供给曲线并观察均衡价格和数量。",
+        componentType: "market",
+        marketType: "product",
+        formula: "Equilibrium occurs where supply intersects demand.",
+        explanation: "需求或供给的非价格决定因素会移动曲线，并改变均衡价格与数量。",
+        controls: [
+          { key: "supplyShift", label: "Supply 供给", defaultValue: 0, min: -35, max: 35, step: 1 },
+          { key: "demandShift", label: "Demand 需求", defaultValue: 0, min: -35, max: 35, step: 1 }
+        ]
       }
-    ],
-    stages: [
-      { key: "expansion", label: "Expansion", subtitle: "扩张", explanation: "Real GDP 上升，就业增加，收入和消费通常增加，但经济过热时可能带来通胀压力。" },
-      { key: "peak", label: "Peak", subtitle: "峰值", explanation: "经济达到短期高点，产出接近或超过潜在水平，通胀压力可能较高。" },
-      { key: "recession", label: "Recession", subtitle: "衰退", explanation: "Real GDP 下降，失业率上升，消费和投资减少。" },
-      { key: "trough", label: "Trough", subtitle: "谷底", explanation: "经济达到低点，之后可能进入复苏阶段。" }
     ]
   }
 ];

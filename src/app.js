@@ -8,7 +8,7 @@ const courseUnits = [
     focus: "PPC / Comparative Advantage",
     accent: "from-output",
     labs: [
-      classificationLab("scarcity-choice", "Unit 1", "Scarcity and Choice", "稀缺性与选择", "把例子拖到正确概念，区分稀缺性、选择和机会成本。", {
+      classificationLab("scarcity-choice", "Unit 1", "Scarcity", "稀缺性", "把例子拖到正确概念，区分稀缺性、选择和机会成本。", {
         formula: "Scarcity -> Choice -> Opportunity Cost",
         explanation: "基础经济概念更适合先做分类判断：先识别资源有限，再识别做出的选择，最后说清楚放弃了什么。",
         categories: [
@@ -93,23 +93,14 @@ const courseUnits = [
           }
         ]
       },
-      classificationLab("economic-systems", "Unit 1", "Economic Systems", "经济制度", "拖拽连线，把资源配置方式归入市场、命令或混合经济。", {
-        formula: "Economic systems differ by who answers what, how, and for whom to produce.",
-        explanation: "经济制度不需要硬画成图形；更重要的是判断资源配置由价格信号、政府计划，还是两者共同决定。",
-        categories: [
-          { id: "command", label: "Command 命令经济", hint: "政府计划和指令主导", color: "#c64861" },
-          { id: "mixed", label: "Mixed 混合经济", hint: "市场与政府共同发挥作用", color: "#8f85df" },
-          { id: "market", label: "Market 市场经济", hint: "价格、利润、竞争主导", color: "#4f75b0" }
-        ],
-        items: [
-          { id: "price-signal", label: "Firms expand output because price rises", correct: "market" },
-          { id: "central-plan", label: "A planning agency sets production targets", correct: "command" },
-          { id: "public-school", label: "Private firms operate, but public schools are funded by government", correct: "mixed" },
-          { id: "profit-entry", label: "Profit attracts new producers into a market", correct: "market" },
-          { id: "ration-quota", label: "The state assigns quotas and rations goods", correct: "command" },
-          { id: "tax-subsidy", label: "Markets set prices, while government uses taxes and subsidies", correct: "mixed" }
-        ]
-      })
+      marketLab(
+        "market-fundamentals",
+        "Unit 1",
+        "Demand, Supply, and Equilibrium",
+        "需求、供给与市场均衡",
+        "移动需求与供给曲线，分析均衡、短缺、剩余和均衡变化。",
+        "product"
+      )
     ]
   },
   {
@@ -129,7 +120,8 @@ const courseUnits = [
           { id: "not-counted", label: "Not counted 不计入 GDP", hint: "中间品、二手交易、金融交易或国外生产" },
           { id: "nominal-gdp", label: "Nominal GDP 名义 GDP", hint: "使用当年价格" },
           { id: "real-gdp", label: "Real GDP 实际 GDP", hint: "使用基期价格衡量真实产量" },
-          { id: "gdp-deflator", label: "GDP Deflator", hint: "Nominal GDP / Real GDP x 100" }
+          { id: "gdp-deflator", label: "GDP Deflator", hint: "Nominal GDP / Real GDP x 100" },
+          { id: "gdp-limitation", label: "GDP Limitation GDP 的局限", hint: "未计入生活质量、分配、非市场活动或环境代价" }
         ],
         items: [
           { id: "new-domestic-laptop", label: "A household buys a new laptop produced domestically this year", correct: "counted-gdp" },
@@ -138,7 +130,9 @@ const courseUnits = [
           { id: "bakery-flour", label: "A bakery buys flour to make bread for sale", correct: "not-counted" },
           { id: "current-price-output", label: "Output valued using this year's prices", correct: "nominal-gdp" },
           { id: "base-price-output", label: "Output valued using base-year prices", correct: "real-gdp" },
-          { id: "price-index-ratio", label: "Nominal GDP divided by Real GDP, then multiplied by 100", correct: "gdp-deflator" }
+          { id: "price-index-ratio", label: "Nominal GDP divided by Real GDP, then multiplied by 100", correct: "gdp-deflator" },
+          { id: "unpaid-care", label: "Unpaid household care creates value but is not recorded in GDP", correct: "gdp-limitation" },
+          { id: "pollution-cost", label: "GDP can rise while pollution and other social costs worsen", correct: "gdp-limitation" }
         ]
       }),
       {
@@ -353,14 +347,40 @@ const courseUnits = [
     title: "Financial Sector",
     subtitle: "金融部门",
     weight: "18%-23%",
-    focus: "Reserve Market / Money Market / Loanable Funds",
+    focus: "Money / Banking / Financial Markets",
     accent: "from-prices",
     labs: [
-      flowLab("bank-balance-sheet", "Unit 4", "Bank Balance Sheet", "银行资产负债表", "用 T-account 理解准备金、贷款和存款。", "bank"),
-      flowLab("money-multiplier", "Unit 4", "Money Multiplier", "货币乘数", "观察准备金率如何影响最大货币创造。", "multiplier"),
-      marketLab("reserve-market", "Unit 4", "Reserve Market", "准备金市场", "用准备金供给和需求分析准备金利率变化。", "reserve"),
+      classificationLab("money-financial-assets", "Unit 4", "Money and Financial Assets", "货币与金融资产", "区分金融资产、名义与实际利率，以及货币的三项职能。", {
+        formula: "Real interest rate = Nominal interest rate - Expected inflation",
+        explanation: "先区分资产的流动性、收益和风险，再区分名义利率与实际利率，并识别货币作为交换媒介、计价单位和价值储藏的职能。",
+        categories: [
+          { id: "financial-asset", label: "Financial Asset 金融资产", hint: "股票、债券等对未来收入或价值的索取权" },
+          { id: "nominal-rate", label: "Nominal Rate 名义利率", hint: "未扣除预期通胀的利率" },
+          { id: "real-rate", label: "Real Rate 实际利率", hint: "名义利率减去预期通胀" },
+          { id: "money-function", label: "Money Function 货币职能", hint: "交换媒介、计价单位或价值储藏" }
+        ],
+        items: [
+          { id: "bond", label: "A government bond promises future interest payments", correct: "financial-asset" },
+          { id: "quoted-rate", label: "A bank advertises a 6% loan rate before accounting for inflation", correct: "nominal-rate" },
+          { id: "inflation-adjusted-rate", label: "The return after subtracting expected inflation", correct: "real-rate" },
+          { id: "unit-account", label: "Prices are stated in dollars so unlike goods can be compared", correct: "money-function" },
+          { id: "medium-exchange", label: "Currency is accepted in exchange for goods and services", correct: "money-function" }
+        ]
+      }),
+      {
+        ...flowLab("banking-money-expansion", "Unit 4", "Banking and Money Expansion", "银行与货币供给扩张", "用 T-account 和存款扩张链条分析银行如何扩张货币供给。", "bank"),
+        steps: [
+          {
+            ...flowLab("bank-balance-sheet", "Unit 4", "Bank Balance Sheet", "银行资产负债表", "用 T-account 理解准备金、贷款和存款。", "bank").steps[0],
+            label: "Step 1"
+          },
+          {
+            ...flowLab("money-multiplier", "Unit 4", "Deposit Expansion", "存款扩张", "观察准备金率如何影响银行体系的最大存款扩张。", "multiplier").steps[0],
+            label: "Step 2"
+          }
+        ]
+      },
       marketLab("money-market", "Unit 4", "Money Market", "货币市场", "用货币供给和货币需求解释名义利率变化。", "money"),
-      marketLab("loanable-funds", "Unit 4", "Loanable Funds", "可贷资金市场", "用储蓄和投资需求分析实际利率。", "loanable"),
       {
         id: "monetary-policy",
         unit: "Unit 4",
@@ -384,7 +404,8 @@ const courseUnits = [
             ]
           }
         ]
-      }
+      },
+      marketLab("loanable-funds", "Unit 4", "Loanable Funds", "可贷资金市场", "用储蓄和投资需求分析实际利率。", "loanable")
     ]
   },
   {
@@ -396,6 +417,30 @@ const courseUnits = [
     focus: "Phillips Curve / Growth",
     accent: "from-labor",
     labs: [
+      {
+        id: "short-run-policy-actions",
+        unit: "Unit 5",
+        title: "Short-Run Policy Actions",
+        subtitle: "短期财政与货币政策",
+        description: "比较扩张性与紧缩性财政、货币政策对 AD、产出、价格水平和失业的短期影响。",
+        accent: "from-cycle",
+        steps: [
+          {
+            id: "short-run-policy-adas",
+            label: "Step 1",
+            title: "Policy actions in the AD-AS model",
+            description: "移动 AD，观察稳定政策在衰退缺口和通胀缺口中的短期结果。",
+            componentType: "adas",
+            formula: "Expansionary policy shifts AD right; contractionary policy shifts AD left.",
+            explanation: "财政政策通过政府支出和税收影响 AD；货币政策通过利率与投资影响 AD。两者都要结合当前产出缺口判断方向。",
+            controls: [
+              { key: "adShift", label: "Policy Effect on AD 政策对 AD 的影响", defaultValue: 15, min: -40, max: 40, step: 1 },
+              { key: "srasShift", label: "SRAS Shift 短期总供给移动", defaultValue: 0, min: -40, max: 40, step: 1 },
+              { key: "potential", label: "Potential Output 潜在产出", defaultValue: 100, min: 80, max: 120, step: 1 }
+            ]
+          }
+        ]
+      },
       {
         id: "phillips-curve",
         unit: "Unit 5",
@@ -415,30 +460,6 @@ const courseUnits = [
             controls: [
               { key: "demandPressure", label: "AD Pressure 总需求压力", defaultValue: 0, min: -30, max: 30, step: 1 },
               { key: "expectedInflation", label: "Expected Inflation 预期通胀", defaultValue: 3, min: 0, max: 10, step: 0.1 },
-              { key: "naturalRate", label: "Natural Rate 自然失业率", defaultValue: 5, min: 3, max: 8, step: 0.1 }
-            ]
-          }
-        ]
-      },
-      {
-        id: "expectations-adjustment",
-        unit: "Unit 5",
-        title: "Expectations Adjustment",
-        subtitle: "预期调整",
-        description: "观察通胀预期变化如何移动短期 Phillips Curve。",
-        accent: "from-labor",
-        steps: [
-          {
-            id: "expected-inflation",
-            label: "Step 1",
-            title: "Expected inflation",
-            description: "提高或降低预期通胀，观察 SRPC 上移或下移。",
-            componentType: "phillips",
-            formula: "Higher expected inflation shifts SRPC upward.",
-            explanation: "当工人和企业预期通胀更高，工资和价格设置会提前调整，短期 Phillips Curve 上移。",
-            controls: [
-              { key: "demandPressure", label: "AD Pressure 总需求压力", defaultValue: 0, min: -30, max: 30, step: 1 },
-              { key: "expectedInflation", label: "Expected Inflation 预期通胀", defaultValue: 5, min: 0, max: 10, step: 0.1 },
               { key: "naturalRate", label: "Natural Rate 自然失业率", defaultValue: 5, min: 3, max: 8, step: 0.1 }
             ]
           }
@@ -548,37 +569,156 @@ const courseUnits = [
               { key: "supplyShift", label: "Currency Supply 货币供给", defaultValue: 0, min: -35, max: 35, step: 1 },
               { key: "demandShift", label: "Currency Demand 货币需求", defaultValue: 0, min: -35, max: 35, step: 1 }
             ]
-          }
-        ]
-      },
-      flowLab("capital-flows", "Unit 6", "Capital Flows", "资本流动", "观察利率差异如何影响资本流动和汇率。", "capital"),
-      {
-        id: "policy-open-economy",
-        unit: "Unit 6",
-        title: "Policy in an Open Economy",
-        subtitle: "开放经济中的政策",
-        description: "分析财政或货币政策在开放经济中对汇率和净出口的影响。",
-        accent: "from-cycle",
-        steps: [
+          },
           {
             id: "policy-forex",
-            label: "Step 1",
-            title: "Policy and exchange rate",
-            description: "调节资本流入和外汇需求，观察汇率与净出口。",
+            label: "Step 3",
+            title: "Policies, exchange rates, and net exports",
+            description: "调节资本流入和外汇需求，观察政策、经济条件、汇率与净出口的联动。",
             componentType: "forex",
             marketType: "forex",
             formula: "Higher domestic interest rates can attract capital inflows and appreciate currency.",
-            explanation: "开放经济中，政策会通过利率和资本流动影响汇率；汇率变化再影响净出口和 AD。",
+            explanation: "政策和经济条件会通过利率、贸易与资本流动改变外汇供求；本币升值通常减少净出口，本币贬值通常增加净出口。",
             controls: [
               { key: "supplyShift", label: "Currency Supply 货币供给", defaultValue: -10, min: -35, max: 35, step: 1 },
               { key: "demandShift", label: "Currency Demand 货币需求", defaultValue: 15, min: -35, max: 35, step: 1 }
             ]
           }
         ]
-      }
+      },
+      flowLab("capital-flows", "Unit 6", "Real Interest Rates and Capital Flows", "实际利率与国际资本流动", "观察实际利率差异如何影响国际资本流动和汇率。", "capital")
     ]
   }
 ];
+
+const ced2026Units = {
+  "unit-1": {
+    classPeriods: "~8-10",
+    topics: [
+      ["1.1", "Scarcity", "MOD"],
+      ["1.2", "Opportunity Cost and the Production Possibilities Curve (PPC)", "MOD"],
+      ["1.3", "Comparative Advantage and Gains from Trade", "MKT"],
+      ["1.4", "Demand", "MKT"],
+      ["1.5", "Supply", "MKT"],
+      ["1.6", "Market Equilibrium, Disequilibrium, and Changes in Equilibrium", "MKT"]
+    ]
+  },
+  "unit-2": {
+    classPeriods: "~9-11",
+    topics: [
+      ["2.1", "The Circular Flow and GDP", "MEA"],
+      ["2.2", "Limitations of GDP", "MEA"],
+      ["2.3", "Unemployment", "MEA"],
+      ["2.4", "Price Indices and Inflation", "MEA"],
+      ["2.5", "Costs of Inflation", "MEA"],
+      ["2.6", "Real v. Nominal GDP", "MEA"],
+      ["2.7", "Business Cycles", "MEA"]
+    ]
+  },
+  "unit-3": {
+    classPeriods: "~10-12",
+    topics: [
+      ["3.1", "Aggregate Demand (AD)", "MOD"],
+      ["3.2", "Multipliers", "MOD"],
+      ["3.3", "Short-Run Aggregate Supply (SRAS)", "MOD"],
+      ["3.4", "Long-Run Aggregate Supply (LRAS)", "MOD"],
+      ["3.5", "Equilibrium in the Aggregate Demand-Aggregate Supply (AD-AS) Model", "MOD"],
+      ["3.6", "Changes in the AD-AS Model in the Short Run", "MOD"],
+      ["3.7", "Long-Run Self-Adjustment", "MOD"],
+      ["3.8", "Fiscal Policy", "POL"],
+      ["3.9", "Automatic Stabilizers", "POL"]
+    ]
+  },
+  "unit-4": {
+    classPeriods: "~11-13",
+    topics: [
+      ["4.1", "Financial Assets", "MEA"],
+      ["4.2", "Nominal v. Real Interest Rates", "MEA"],
+      ["4.3", "Definition, Measurement, and Functions of Money", "MEA"],
+      ["4.4", "Banking and the Expansion of the Money Supply", "POL"],
+      ["4.5", "The Money Market", "MKT"],
+      ["4.6", "Monetary Policy", "POL"],
+      ["4.7", "The Loanable Funds Market", "MKT"]
+    ]
+  },
+  "unit-5": {
+    classPeriods: "~8-10",
+    topics: [
+      ["5.1", "Fiscal and Monetary Policy Actions in the Short Run", "POL"],
+      ["5.2", "The Phillips Curve", "MOD"],
+      ["5.3", "Money Growth and Inflation", "POL"],
+      ["5.4", "Government Deficits and the National Debt", "POL"],
+      ["5.5", "Crowding Out", "POL"],
+      ["5.6", "Economic Growth", "MEA/MOD"],
+      ["5.7", "Public Policy and Economic Growth", "POL"]
+    ]
+  },
+  "unit-6": {
+    classPeriods: "~5-7",
+    topics: [
+      ["6.1", "Balance of Payments Accounts", "MEA"],
+      ["6.2", "Exchange Rates", "MKT"],
+      ["6.3", "The Foreign Exchange Market", "MKT"],
+      ["6.4", "Effect of Changes in Policies and Economic Conditions on the Foreign Exchange Market", "MKT"],
+      ["6.5", "Changes in the Foreign Exchange Market and Net Exports", "MKT"],
+      ["6.6", "Real Interest Rates and International Capital Flows", "MKT"]
+    ]
+  }
+};
+
+const labTopicCoverage = {
+  "scarcity-choice": ["1.1"],
+  "ppc-opportunity-cost": ["1.2"],
+  "comparative-advantage": ["1.3"],
+  "market-fundamentals": ["1.4", "1.5", "1.6"],
+  "measuring-output": ["2.1", "2.2", "2.6"],
+  "labor-market": ["2.3"],
+  "measuring-prices": ["2.4", "2.5"],
+  "business-cycle": ["2.7"],
+  "ad-components": ["3.1"],
+  "multiplier-lab": ["3.2"],
+  "adas-equilibrium": ["3.3", "3.4", "3.5"],
+  "output-gaps": ["3.6", "3.7"],
+  "fiscal-policy": ["3.8", "3.9"],
+  "money-financial-assets": ["4.1", "4.2", "4.3"],
+  "banking-money-expansion": ["4.4"],
+  "money-market": ["4.5"],
+  "monetary-policy": ["4.6"],
+  "loanable-funds": ["4.7"],
+  "short-run-policy-actions": ["5.1"],
+  "phillips-curve": ["5.2"],
+  "money-growth-inflation": ["5.3"],
+  "deficits-crowding-out": ["5.4", "5.5"],
+  "economic-growth": ["5.6", "5.7"],
+  "balance-of-payments": ["6.1"],
+  "foreign-exchange": ["6.2", "6.3", "6.4", "6.5"],
+  "capital-flows": ["6.6"]
+};
+
+const labOrder = {
+  "unit-3": ["ad-components", "multiplier-lab", "adas-equilibrium", "output-gaps", "fiscal-policy"],
+  "unit-5": ["short-run-policy-actions", "phillips-curve", "money-growth-inflation", "deficits-crowding-out", "economic-growth"]
+};
+
+courseUnits.forEach((unit) => {
+  const cedUnit = ced2026Units[unit.id];
+  unit.classPeriods = cedUnit.classPeriods;
+  unit.topics = cedUnit.topics.map(([code, title, bigIdea]) => ({ code, title, bigIdea }));
+  if (labOrder[unit.id]) {
+    unit.labs.sort((a, b) => labOrder[unit.id].indexOf(a.id) - labOrder[unit.id].indexOf(b.id));
+  }
+  unit.labs.forEach((lab) => {
+    lab.topics = labTopicCoverage[lab.id] ?? [];
+  });
+});
+
+const officialTopicCodes = courseUnits.flatMap((unit) => unit.topics.map((topic) => topic.code));
+const coveredTopicCodes = courseUnits.flatMap((unit) => unit.labs.flatMap((lab) => lab.topics));
+const missingTopicCodes = officialTopicCodes.filter((code) => !coveredTopicCodes.includes(code));
+const duplicateTopicCodes = coveredTopicCodes.filter((code, index) => coveredTopicCodes.indexOf(code) !== index);
+if (officialTopicCodes.length !== 42 || missingTopicCodes.length || duplicateTopicCodes.length) {
+  throw new Error(`Invalid 2026 CED coverage: missing=${missingTopicCodes.join(",")}; duplicate=${duplicateTopicCodes.join(",")}`);
+}
 
 const state = {
   view: "home",
@@ -709,6 +849,7 @@ function flowLab(id, unit, title, subtitle, description, flowType) {
 
 function marketLab(id, unit, title, subtitle, description, marketType) {
   const labels = {
+    product: ["Supply 供给", "Demand 需求", "Market Price 市场价格"],
     reserve: ["Reserve Supply 准备金供给", "Reserve Demand 准备金需求", "Reserve Rate 准备金利率"],
     money: ["Money Supply 货币供给", "Money Demand 货币需求", "Nominal Interest Rate 名义利率"],
     loanable: ["Saving Supply 储蓄供给", "Investment Demand 投资需求", "Real Interest Rate 实际利率"],
@@ -843,6 +984,36 @@ function metric(label, valueText, note = "") {
   return `<div class="metric-card"><span>${label}</span><strong>${valueText}</strong>${note ? `<small>${note}</small>` : ""}</div>`;
 }
 
+function renderLabTopics(lab) {
+  return `
+    <div class="topic-chip-row" aria-label="CED topics covered">
+      ${(lab.topics ?? []).map((topic) => `<span class="topic-code-chip">${topic}</span>`).join("")}
+    </div>
+  `;
+}
+
+function renderTopicMap(unit) {
+  return `
+    <section class="topic-map" aria-label="${unit.label} 2026 CED topic map">
+      <div class="topic-map-heading">
+        <span>2026 CED Knowledge Map</span>
+        <strong>${unit.topics.length} Topics · ${unit.classPeriods} class periods</strong>
+      </div>
+      <div class="topic-map-grid">
+        ${unit.topics.map((topic) => `
+          <article class="topic-map-item">
+            <span>${topic.code}</span>
+            <div>
+              <strong>${topic.title}</strong>
+              <small>${topic.bigIdea}</small>
+            </div>
+          </article>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
+
 function renderHome() {
   return `
     <div class="page-shell">
@@ -851,10 +1022,11 @@ function renderHome() {
           <div>
             <span class="unit-pill">AP Macroeconomics</span>
             <span class="unit-pill">6 Units</span>
+            <span class="unit-pill">2026 CED</span>
           </div>
           <h1>Macroeconomics Course Map</h1>
-          <p>宏观经济学互动课程地图</p>
-          <div class="unit-count"><span>${allLabs().length} Labs</span><strong>→</strong></div>
+          <p>宏观经济学互动课程地图 · Effective Fall 2026</p>
+          <div class="unit-count"><span>42 Topics · ${allLabs().length} Labs</span><strong>→</strong></div>
         </header>
         <div class="unit-accordion-list">
           ${courseUnits.map((unit) => `
@@ -863,16 +1035,18 @@ function renderHome() {
                 <span class="lab-chip">${unit.label}</span>
                 <span>
                   <strong>${unit.title}</strong>
-                  <small>${unit.subtitle} · ${unit.focus}</small>
+                  <small>${unit.subtitle} · ${unit.focus} · ${unit.classPeriods} periods</small>
                 </span>
                 <em>${unit.weight}</em>
               </summary>
+              ${renderTopicMap(unit)}
               <div class="home-lab-grid">
                 ${unit.labs.map((lab) => `
                   <article class="lab-card clickable-card" data-open-lab="${lab.id}" data-unit="${unit.id}" tabindex="0" role="button" aria-label="Open ${lab.title}">
                     <div>
                       <span class="lab-chip">${lab.unit}</span>
                     </div>
+                    ${renderLabTopics(lab)}
                     <h2>${lab.title}</h2>
                     <p>${lab.description}</p>
                     <button type="button" tabindex="-1" aria-hidden="true">进入实验</button>
@@ -898,15 +1072,17 @@ function renderUnit() {
           <span class="badge badge-soft">${unit.weight}</span>
         </div>
         <h1>${unit.title}</h1>
-        <p>${unit.subtitle} · ${unit.focus}</p>
+        <p>${unit.subtitle} · ${unit.focus} · ${unit.classPeriods} suggested class periods</p>
       </header>
       <section class="unit-directory panel unit-lab-directory">
+        ${renderTopicMap(unit)}
         <div class="lab-card-grid">
           ${unit.labs.map((lab) => `
             <article class="lab-card clickable-card" data-open-lab="${lab.id}" data-unit="${unit.id}" tabindex="0" role="button" aria-label="Open ${lab.title}">
               <div>
                 <span class="lab-chip">${lab.unit}</span>
               </div>
+              ${renderLabTopics(lab)}
               <h2>${lab.title}</h2>
               <p>${lab.description}</p>
               <button type="button" tabindex="-1" aria-hidden="true">进入实验</button>
@@ -937,7 +1113,7 @@ function renderUnitLabSidebar(activeLab) {
               type="button"
               ${active ? "aria-current=\"page\"" : ""}>
               <span>${lab.title}</span>
-              <small>${lab.subtitle}</small>
+              <small>${(lab.topics ?? []).join(" · ")} · ${lab.subtitle}</small>
             </button>
           `;
         }).join("")}
@@ -1555,6 +1731,7 @@ function marketSummary(step) {
   const quantity = 100 + supply + demand;
   const price = 100 + demand - supply;
   const label = {
+    product: "Market Price",
     reserve: "Reserve Rate",
     money: "Nominal Interest Rate",
     loanable: "Real Interest Rate",
@@ -1571,8 +1748,8 @@ function renderMarket(step) {
   const summary = marketSummary(step);
   const supplyShift = value("supplyShift") * 2.4;
   const demandShift = value("demandShift") * 2.4;
-  const yLabel = step.marketType === "forex" ? "Exchange Rate" : step.marketType === "loanable" ? "Real Interest Rate" : step.marketType === "reserve" ? "Reserve Rate" : "Nominal Interest Rate";
-  const xLabel = step.marketType === "forex" ? "Quantity of Currency" : step.marketType === "loanable" ? "Quantity of Loanable Funds" : step.marketType === "reserve" ? "Quantity of Reserves" : "Quantity of Money";
+  const yLabel = step.marketType === "product" ? "Price" : step.marketType === "forex" ? "Exchange Rate" : step.marketType === "loanable" ? "Real Interest Rate" : step.marketType === "reserve" ? "Reserve Rate" : "Nominal Interest Rate";
+  const xLabel = step.marketType === "product" ? "Quantity" : step.marketType === "forex" ? "Quantity of Currency" : step.marketType === "loanable" ? "Quantity of Loanable Funds" : step.marketType === "reserve" ? "Quantity of Reserves" : "Quantity of Money";
   const eqX = 330 + (value("supplyShift") + value("demandShift")) * 1.2;
   const eqY = 205 - (value("demandShift") - value("supplyShift")) * 1.2;
   return `

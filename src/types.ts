@@ -80,7 +80,7 @@ export interface LessonConfig {
   example?: string;
   formula?: string;
   formulaType?: FormulaType;
-  marketType?: "reserve" | "money" | "loanable" | "forex";
+  marketType?: "product" | "reserve" | "money" | "loanable" | "forex";
   flowType?: "bank" | "multiplier" | "bop" | "capital";
   controls?: ControlConfig[];
   parts?: CompositionPart[];
@@ -101,8 +101,15 @@ export interface LabConfig {
   subtitle: string;
   description: string;
   accent?: string;
+  topics?: string[];
   steps: LessonConfig[];
   stages?: CycleStage[];
+}
+
+export interface CedTopic {
+  code: string;
+  title: string;
+  bigIdea: "MEA" | "MKT" | "MOD" | "POL" | "MEA/MOD";
 }
 
 export interface UnitConfig {
@@ -111,7 +118,9 @@ export interface UnitConfig {
   title: string;
   subtitle: string;
   weight: string;
+  classPeriods?: string;
   focus: string;
   accent?: string;
+  topics?: CedTopic[];
   labs: LabConfig[];
 }

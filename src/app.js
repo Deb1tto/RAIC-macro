@@ -446,7 +446,10 @@ const courseUnits = [
     accent: "from-prices",
     labs: [
       classificationLab("money-financial-assets", "Unit 4", "Money and Financial Assets", "货币与金融资产", "区分金融资产、名义与实际利率，以及货币的三项职能。", {
-        formula: "Real interest rate = Nominal interest rate - Expected inflation",
+        formulaLines: [
+          "Real interest rate",
+          "= Nominal interest rate - Expected inflation"
+        ],
         explanation: "先区分资产的流动性、收益和风险，再区分名义利率与实际利率，并识别货币作为交换媒介、计价单位和价值储藏的职能。",
         categories: [
           { id: "financial-asset", label: "Financial Asset 金融资产", hint: "股票、债券等对未来收入或价值的索取权" },
@@ -485,12 +488,34 @@ const courseUnits = [
         accent: "from-prices",
         steps: [
           {
-            id: "monetary-adas",
+            id: "reserve-market",
             label: "Step 1",
+            title: "Reserve Market",
+            description: "移动准备金供给和需求，观察准备金市场利率及货币政策实施。",
+            componentType: "market",
+            marketType: "reserve",
+            formulaLines: [
+              "Reserve market equilibrium",
+              "= intersection of reserve supply and reserve demand"
+            ],
+            explanation: "央行通过准备金供给、公开市场操作和管理利率影响准备金市场。这里先建立准备金市场，再进入利率、投资和 AD 的传导链。",
+            controls: [
+              { key: "supplyShift", label: "Reserve Supply 准备金供给", defaultValue: 0, min: -35, max: 35, step: 1 },
+              { key: "demandShift", label: "Reserve Demand 准备金需求", defaultValue: 0, min: -35, max: 35, step: 1 }
+            ]
+          },
+          {
+            id: "monetary-adas",
+            label: "Step 2",
             title: "Money to AD",
             description: "调节货币供给和投资敏感度，观察 AD-AS 联动。",
             componentType: "adas",
-            formula: "MS increases -> interest rate falls -> investment rises -> AD shifts right",
+            formulaLines: [
+              "Money supply increases",
+              "→ interest rate falls",
+              "→ investment rises",
+              "→ AD shifts right"
+            ],
             explanation: "扩张性货币政策增加货币供给，降低利率，刺激投资，使 AD 右移。",
             controls: [
               { key: "adShift", label: "Monetary AD Effect 货币政策对 AD", defaultValue: 18, min: -40, max: 40, step: 1 },
@@ -907,6 +932,7 @@ function classificationLab(id, unit, title, subtitle, description, options) {
         description,
         componentType: "classification",
         formula: options.formula,
+        formulaLines: options.formulaLines,
         explanation: options.explanation,
         categories: options.categories,
         items: options.items

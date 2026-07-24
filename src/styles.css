@@ -1280,6 +1280,41 @@ button {
   transform: translateY(-1px);
 }
 
+.match-target {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.match-target.is-selected-target {
+  border-color: #d69a22;
+  background: rgba(214, 154, 34, 0.12);
+  box-shadow: 0 0 0 3px rgba(214, 154, 34, 0.16);
+}
+
+.mini-market {
+  width: 82px;
+  min-width: 82px;
+  height: 54px;
+}
+
+.mini-market path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 4;
+}
+
+.mini-market-old {
+  stroke: rgba(31, 42, 55, 0.22);
+  stroke-dasharray: 5 4;
+}
+
+.mini-market-new {
+  stroke: var(--match-color, var(--accent));
+}
+
 .match-card.is-correct {
   border-color: var(--match-color, rgba(47, 143, 116, 0.5));
   background: color-mix(in srgb, var(--match-color, #4cb7ab) 12%, white);
@@ -1294,6 +1329,39 @@ button {
   border-color: #d69a22;
   background: rgba(214, 154, 34, 0.14);
   box-shadow: 0 0 0 3px rgba(214, 154, 34, 0.18);
+}
+
+.reference-dot {
+  fill: rgba(31, 42, 55, 0.28);
+  stroke: white;
+  stroke-width: 2;
+}
+
+.market-reference {
+  stroke-width: 2;
+}
+
+.causal-chain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  overflow-x: auto;
+  margin-top: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  padding: 12px;
+  white-space: nowrap;
+}
+
+.causal-chain strong {
+  color: var(--ink);
+}
+
+.causal-chain span {
+  color: var(--accent);
+  font-weight: 900;
 }
 
 .allocation-chart {

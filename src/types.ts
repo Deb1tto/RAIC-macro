@@ -49,12 +49,13 @@ export interface ClassificationCategory {
   label: string;
   hint: string;
   color?: string;
+  miniMarket?: "demand-right" | "demand-left" | "supply-right" | "supply-left";
 }
 
 export interface ClassificationItem {
   id: string;
   label: string;
-  correct: string;
+  correct: string | string[];
 }
 
 export interface CompositionPart extends ControlConfig {
@@ -90,6 +91,9 @@ export interface LessonConfig {
   example?: string;
   formula?: string;
   formulaLines?: FormulaLine[];
+  answerMode?: "single" | "multiple";
+  showMiniMarkets?: boolean;
+  showNetExports?: boolean;
   formulaType?: FormulaType;
   marketType?: "product" | "reserve" | "money" | "loanable" | "forex";
   flowType?: "bank" | "multiplier" | "bop" | "capital";

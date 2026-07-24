@@ -617,7 +617,36 @@ const courseUnits = [
     focus: "Foreign Exchange Market",
     accent: "from-cycle",
     labs: [
-      flowLab("balance-of-payments", "Unit 6", "Balance of Payments", "国际收支", "区分经常账户和金融账户。", "bop"),
+      {
+        id: "balance-of-payments",
+        unit: "Unit 6",
+        title: "Balance of Payments",
+        subtitle: "国际收支",
+        description: "分别调整经常账户和金融账户项目，检查国际收支是否平衡。",
+        accent: "from-prices",
+        steps: [
+          {
+            id: "balance-of-payments-flow",
+            label: "Step 1",
+            title: "Balance of Payments",
+            description: "贸易流量和金融流量相互独立输入，不用统计调整项自动抵消。",
+            componentType: "flow",
+            flowType: "bop",
+            formulaLines: [
+              "Current Account = Exports - Imports",
+              "Financial Account = Financial Inflows - Financial Outflows",
+              "BOP Balance = Current Account + Financial Account"
+            ],
+            explanation: "经常账户记录商品、服务和收入流动；金融账户记录资产交易。国际收支恒等式要求账户总和最终为零，但单个输入变化不会自动改写另一个账户。",
+            controls: [
+              { key: "exports", label: "Exports 出口", defaultValue: 120, min: 0, max: 300, step: 1 },
+              { key: "imports", label: "Imports 进口", defaultValue: 150, min: 0, max: 300, step: 1 },
+              { key: "financialInflows", label: "Financial Inflows 金融流入", defaultValue: 80, min: 0, max: 250, step: 1 },
+              { key: "financialOutflows", label: "Financial Outflows 金融流出", defaultValue: 50, min: 0, max: 250, step: 1 }
+            ]
+          }
+        ]
+      },
       {
         id: "foreign-exchange",
         unit: "Unit 6",
@@ -630,19 +659,29 @@ const courseUnits = [
             id: "forex-determinants",
             label: "Step 1",
             title: "Forex determinants",
-            description: "把外汇市场 shock 连到正确曲线。",
+            description: "把每个 shock 连到 Demand 右移、Demand 左移、Supply 右移或 Supply 左移。",
             componentType: "classification",
-            formula: "Currency demand comes from foreigners buying domestic goods/assets; currency supply comes from domestic residents buying foreign goods/assets.",
+            showMiniMarkets: true,
+            formulaLines: [
+              "Foreigners buying domestic goods/assets changes demand for the domestic currency.",
+              "Domestic residents buying foreign goods/assets changes supply of the domestic currency."
+            ],
             explanation: "外汇题通常先判断哪一条曲线移动。外国人需要本币购买本国商品或资产，会增加本币需求；本国人需要外币购买外国商品或资产，会增加本币供给。",
             categories: [
-              { id: "currency-demand", label: "Demand for currency 需求", hint: "外国人购买本国商品或资产" },
-              { id: "currency-supply", label: "Supply of currency 供给", hint: "本国人购买外国商品或资产" }
+              { id: "demand-right", label: "Demand shifts right", hint: "本币需求增加", color: "#d06732", miniMarket: "demand-right" },
+              { id: "demand-left", label: "Demand shifts left", hint: "本币需求减少", color: "#c64861", miniMarket: "demand-left" },
+              { id: "supply-right", label: "Supply shifts right", hint: "本币供给增加", color: "#168c82", miniMarket: "supply-right" },
+              { id: "supply-left", label: "Supply shifts left", hint: "本币供给减少", color: "#2f6fb4", miniMarket: "supply-left" }
             ],
             items: [
-              { id: "exports-rise", label: "Foreign consumers buy more domestic exports", correct: "currency-demand" },
-              { id: "domestic-assets-attractive", label: "Foreign investors buy more domestic bonds", correct: "currency-demand" },
-              { id: "imports-rise", label: "Domestic consumers buy more foreign goods", correct: "currency-supply" },
-              { id: "foreign-assets-attractive", label: "Domestic investors buy more foreign bonds", correct: "currency-supply" }
+              { id: "exports-rise", label: "Foreign consumers buy more domestic exports", correct: "demand-right" },
+              { id: "exports-fall", label: "Foreign consumers buy fewer domestic exports", correct: "demand-left" },
+              { id: "domestic-assets-attractive", label: "Foreign investors buy more domestic bonds", correct: "demand-right" },
+              { id: "foreign-sellers-repatriate", label: "Foreign investors sell domestic assets and leave", correct: "demand-left" },
+              { id: "imports-rise", label: "Domestic consumers buy more foreign goods", correct: "supply-right" },
+              { id: "imports-fall", label: "Domestic consumers buy fewer foreign goods", correct: "supply-left" },
+              { id: "foreign-assets-attractive", label: "Domestic investors buy more foreign bonds", correct: "supply-right" },
+              { id: "domestic-investors-return", label: "Domestic investors sell foreign assets and bring funds home", correct: "supply-left" }
             ]
           },
           {
@@ -652,7 +691,7 @@ const courseUnits = [
             description: "移动外汇供给和需求，观察汇率、升值和贬值；若 Step 1 已答对，曲线会先按该 shock 自动设置。",
             componentType: "forex",
             marketType: "forex",
-            formula: "Equilibrium occurs where currency supply intersects currency demand.",
+            formulaLines: ["Equilibrium exchange rate occurs where currency supply intersects currency demand."],
             explanation: "外汇需求增加通常推高本币汇率，本币升值；外汇供给增加通常压低本币汇率，本币贬值。",
             controls: [
               { key: "supplyShift", label: "Currency Supply 货币供给", defaultValue: 0, min: -35, max: 35, step: 1 },
@@ -660,22 +699,45 @@ const courseUnits = [
             ]
           },
           {
-            id: "policy-forex",
+            id: "relative-rates-forex",
             label: "Step 3",
-            title: "Policies, exchange rates, and net exports",
-            description: "调节资本流入和外汇需求，观察政策、经济条件、汇率与净出口的联动。",
+            title: "Relative interest rates and capital flows",
+            description: "每个相对利率情境可能同时对应两种正确的外汇曲线表达。",
+            componentType: "classification",
+            answerMode: "multiple",
+            showMiniMarkets: true,
+            formulaLines: ["A higher relative domestic real interest rate attracts financial capital."],
+            explanation: "资本流入可以表示为外国人增加本币需求，也可以表示为本国人减少本币供给。因此同一相对利率变化可对应两条正确曲线，不是单选题。",
+            categories: [
+              { id: "demand-right", label: "Demand shifts right", hint: "外国资金购买本国资产", color: "#d06732", miniMarket: "demand-right" },
+              { id: "demand-left", label: "Demand shifts left", hint: "外国资金减少购买本国资产", color: "#c64861", miniMarket: "demand-left" },
+              { id: "supply-right", label: "Supply shifts right", hint: "本国资金更多流向国外", color: "#168c82", miniMarket: "supply-right" },
+              { id: "supply-left", label: "Supply shifts left", hint: "本国资金减少流向国外", color: "#2f6fb4", miniMarket: "supply-left" }
+            ],
+            items: [
+              { id: "relative-rate-rises", label: "Domestic real interest rate rises relative to the foreign rate", correct: ["demand-right", "supply-left"] },
+              { id: "relative-rate-falls", label: "Domestic real interest rate falls relative to the foreign rate", correct: ["demand-left", "supply-right"] },
+              { id: "both-fall-domestic-slower", label: "Both rates fall, but the domestic rate falls more slowly", correct: ["demand-right", "supply-left"] },
+              { id: "both-rise-foreign-faster", label: "Both rates rise, but the foreign rate rises faster", correct: ["demand-left", "supply-right"] }
+            ]
+          },
+          {
+            id: "policy-forex",
+            label: "Step 4",
+            title: "Exchange rate and net exports",
+            description: "移动外汇供求，沿因果链观察本币升贬值、出口、进口、净出口和 AD。",
             componentType: "forex",
             marketType: "forex",
-            formula: "Higher domestic interest rates can attract capital inflows and appreciate currency.",
-            explanation: "政策和经济条件会通过利率、贸易与资本流动改变外汇供求；本币升值通常减少净出口，本币贬值通常增加净出口。",
+            showNetExports: true,
+            formulaLines: ["Currency appreciation lowers net exports; currency depreciation raises net exports."],
+            explanation: "本币升值使本国商品对外国人更贵、外国商品对本国人更便宜，出口减少、进口增加、净出口与 AD 下降；贬值方向相反。",
             controls: [
-              { key: "supplyShift", label: "Currency Supply 货币供给", defaultValue: -10, min: -35, max: 35, step: 1 },
-              { key: "demandShift", label: "Currency Demand 货币需求", defaultValue: 15, min: -35, max: 35, step: 1 }
+              { key: "supplyShift", label: "Currency Supply Shift 货币供给移动", defaultValue: -10, min: -35, max: 35, step: 1 },
+              { key: "demandShift", label: "Currency Demand Shift 货币需求移动", defaultValue: 15, min: -35, max: 35, step: 1 }
             ]
           }
         ]
-      },
-      flowLab("capital-flows", "Unit 6", "Real Interest Rates and Capital Flows", "实际利率与国际资本流动", "观察实际利率差异如何影响国际资本流动和汇率。", "capital")
+      }
     ]
   }
 ];
@@ -780,8 +842,7 @@ const labTopicCoverage = {
   "deficits-crowding-out": ["5.4", "5.5"],
   "economic-growth": ["5.6", "5.7"],
   "balance-of-payments": ["6.1"],
-  "foreign-exchange": ["6.2", "6.3", "6.4", "6.5"],
-  "capital-flows": ["6.6"]
+  "foreign-exchange": ["6.2", "6.3", "6.4", "6.5", "6.6"]
 };
 
 const labOrder = {
@@ -1013,9 +1074,13 @@ function resetValues(step = currentStep()) {
 function forexShockShift(itemId) {
   return {
     "exports-rise": { demandShift: 18, supplyShift: 0 },
+    "exports-fall": { demandShift: -18, supplyShift: 0 },
     "domestic-assets-attractive": { demandShift: 22, supplyShift: 0 },
+    "foreign-sellers-repatriate": { demandShift: -22, supplyShift: 0 },
     "imports-rise": { demandShift: 0, supplyShift: 18 },
-    "foreign-assets-attractive": { demandShift: 0, supplyShift: 22 }
+    "imports-fall": { demandShift: 0, supplyShift: -18 },
+    "foreign-assets-attractive": { demandShift: 0, supplyShift: 22 },
+    "domestic-investors-return": { demandShift: 0, supplyShift: -22 }
   }[itemId];
 }
 
@@ -1024,7 +1089,7 @@ function applyLinkedDefaults(step) {
 
   const determinantStep = currentLab().steps.find((item) => item.id === "forex-determinants");
   const matches = determinantStep ? matchesForStep(determinantStep) : {};
-  const correctMatch = (determinantStep?.items ?? []).find((item) => matches[item.id] === item.correct);
+  const correctMatch = (determinantStep?.items ?? []).find((item) => isClassificationAnswerCorrect(item, matches[item.id]));
   const shift = correctMatch ? forexShockShift(correctMatch.id) : null;
   if (!shift) return;
 
@@ -1501,8 +1566,8 @@ function matchesForStep(step) {
 function classificationSummary(step) {
   const matches = matchesForStep(step);
   const total = step.items?.length ?? 0;
-  const answered = Object.keys(matches).length;
-  const correct = (step.items ?? []).filter((item) => matches[item.id] === item.correct).length;
+  const answered = (step.items ?? []).filter((item) => answerList(matches[item.id]).length > 0).length;
+  const correct = (step.items ?? []).filter((item) => isClassificationAnswerCorrect(item, matches[item.id])).length;
   return {
     total: `${correct}/${total} correct`,
     metrics: [["Answered", answered], ["Correct", correct], ["Remaining", Math.max(total - answered, 0)]],
@@ -1515,6 +1580,34 @@ function classificationSummary(step) {
   };
 }
 
+function answerList(answer) {
+  if (answer == null) return [];
+  return Array.isArray(answer) ? answer : [answer];
+}
+
+function isClassificationAnswerCorrect(item, assigned) {
+  const expected = answerList(item.correct).slice().sort();
+  const actual = answerList(assigned).slice().sort();
+  return expected.length === actual.length && expected.every((answer, index) => answer === actual[index]);
+}
+
+function renderMiniMarket(direction) {
+  if (!direction) return "";
+  const isDemand = direction.startsWith("demand");
+  const goesRight = direction.endsWith("right");
+  const base = isDemand ? "M 62 8 L 16 46" : "M 16 46 L 62 8";
+  const offset = goesRight ? 9 : -9;
+  const shifted = isDemand
+    ? `M ${62 + offset} 8 L ${16 + offset} 46`
+    : `M ${16 + offset} 46 L ${62 + offset} 8`;
+  return `
+    <svg viewBox="0 0 82 54" class="mini-market" aria-hidden="true">
+      <path d="${base}" class="mini-market-old"></path>
+      <path d="${shifted}" class="mini-market-new"></path>
+    </svg>
+  `;
+}
+
 function renderClassification(step) {
   const matches = matchesForStep(step);
   const categories = step.categories ?? [];
@@ -1523,8 +1616,8 @@ function renderClassification(step) {
   const categoryById = Object.fromEntries(categories.map((category) => [category.id, category]));
   const correctlyAnsweredCategories = new Set(
     items
-      .filter((item) => matches[item.id] === item.correct)
-      .map((item) => item.correct)
+      .filter((item) => isClassificationAnswerCorrect(item, matches[item.id]))
+      .flatMap((item) => answerList(item.correct))
   );
   return `
     <section class="panel visual-panel">
@@ -1538,18 +1631,19 @@ function renderClassification(step) {
         <div class="matching-column">
           <div class="matching-heading">Examples</div>
           ${items.map((item) => {
-            const assigned = matches[item.id];
-            const isCorrect = assigned === item.correct;
-            const color = isCorrect ? categoryById[assigned]?.color : "";
+            const assigned = answerList(matches[item.id]);
+            const isAnswered = assigned.length > 0;
+            const isCorrect = isClassificationAnswerCorrect(item, assigned);
+            const color = isCorrect && assigned.length === 1 ? categoryById[assigned[0]]?.color : "";
             return `
-              <button class="match-card ${state.selectedMatchItem === item.id ? "is-selected" : ""} ${assigned ? isCorrect ? "is-correct" : "is-wrong" : ""}"
+              <button class="match-card ${state.selectedMatchItem === item.id ? "is-selected" : ""} ${isAnswered ? isCorrect ? "is-correct" : "is-wrong" : ""}"
                 draggable="true"
                 data-match-item="${item.id}"
-                data-correct-category="${item.correct}"
+                data-correct-category="${answerList(item.correct).join("|")}"
                 aria-pressed="${state.selectedMatchItem === item.id}"
                 style="${color ? `--match-color:${color}` : ""}">
                 <span>${item.label}</span>
-                ${assigned ? `<small>${isCorrect ? "Correct" : "Try again"}</small>` : ""}
+                ${isAnswered ? `<small>${isCorrect ? "Correct" : step.answerMode === "multiple" ? `${assigned.length}/${answerList(item.correct).length} selected` : "Try again"}</small>` : ""}
               </button>
             `;
           }).join("")}
@@ -1558,10 +1652,16 @@ function renderClassification(step) {
           <div class="matching-heading">Categories</div>
           ${categories.map((category) => {
             const showColor = correctlyAnsweredCategories.has(category.id);
+            const selectedForItem = state.selectedMatchItem
+              ? answerList(matches[state.selectedMatchItem]).includes(category.id)
+              : false;
             return `
-              <button class="match-target ${showColor ? "has-correct-match" : ""}" data-match-category="${category.id}" style="${showColor && category.color ? `--match-color:${category.color}` : ""}">
-                <strong>${category.label}</strong>
-                <span>${category.hint}</span>
+              <button class="match-target ${showColor ? "has-correct-match" : ""} ${selectedForItem ? "is-selected-target" : ""}" data-match-category="${category.id}" style="${category.color ? `--match-color:${category.color}` : ""}">
+                <div>
+                  <strong>${category.label}</strong>
+                  <span>${category.hint}</span>
+                </div>
+                ${step.showMiniMarkets ? renderMiniMarket(category.miniMarket) : ""}
               </button>
             `;
           }).join("")}
@@ -1873,7 +1973,7 @@ function renderFiscal(step) {
 function marketSummary(step) {
   const supply = value("supplyShift");
   const demand = value("demandShift");
-  const quantity = 100 + supply + demand;
+  const quantity = 100 + (supply + demand) / 2;
   const price = 100 + demand - supply;
   const label = {
     product: "Market Price",
@@ -1882,9 +1982,22 @@ function marketSummary(step) {
     loanable: "Real Interest Rate",
     forex: "Exchange Rate"
   }[step.marketType] ?? "Rate";
+  const appreciation = price - 100;
+  const exports = 100 - appreciation * 0.4;
+  const imports = 100 + appreciation * 0.4;
+  const netExports = exports - imports;
+  const metrics = [["Equilibrium Quantity", quantity], [label, price], ["Supply Shift", supply], ["Demand Shift", demand]];
+  if (step.showNetExports) metrics.push(["Exports", exports], ["Imports", imports], ["Net Exports", netExports]);
   return {
     total: price > 100 ? `${label} rises` : price < 100 ? `${label} falls` : `${label} stable`,
-    metrics: [["Equilibrium Quantity", quantity], [label, price], ["Supply Shift", supply], ["Demand Shift", demand]],
+    metrics,
+    causal: {
+      currency: appreciation > 0 ? "Appreciation 本币升值" : appreciation < 0 ? "Depreciation 本币贬值" : "Stable currency 汇率稳定",
+      exports: appreciation > 0 ? "Exports ↓" : appreciation < 0 ? "Exports ↑" : "Exports unchanged",
+      imports: appreciation > 0 ? "Imports ↑" : appreciation < 0 ? "Imports ↓" : "Imports unchanged",
+      netExports: netExports > 0 ? "NX ↑" : netExports < 0 ? "NX ↓" : "NX unchanged",
+      ad: netExports > 0 ? "AD shifts right" : netExports < 0 ? "AD shifts left" : "AD unchanged"
+    },
     feedback: demand > supply ? `${label} 上升：需求右移或供给左移的力量更强。` : supply > demand ? `${label} 下降：供给右移或需求左移的力量更强。` : "供给和需求变化大致抵消，均衡价格变化较小。"
   };
 }
@@ -1895,25 +2008,47 @@ function renderMarket(step) {
   const demandShift = value("demandShift") * 2.4;
   const yLabel = step.marketType === "product" ? "Price" : step.marketType === "forex" ? "Exchange Rate" : step.marketType === "loanable" ? "Real Interest Rate" : step.marketType === "reserve" ? "Reserve Rate" : "Nominal Interest Rate";
   const xLabel = step.marketType === "product" ? "Quantity" : step.marketType === "forex" ? "Quantity of Currency" : step.marketType === "loanable" ? "Quantity of Loanable Funds" : step.marketType === "reserve" ? "Quantity of Reserves" : "Quantity of Money";
-  const eqX = 330 + (value("supplyShift") + value("demandShift")) * 1.2;
-  const eqY = 205 - (value("demandShift") - value("supplyShift")) * 1.2;
+  const eqX = 360 + (value("supplyShift") + value("demandShift")) * 1.2;
+  const eqY = 197.5 - (demandShift - supplyShift) * 235 / 740;
+  const shifted = value("supplyShift") !== 0 || value("demandShift") !== 0;
   return `
     <section class="panel visual-panel">
       <div class="panel-heading">
         <h2>${step.title}</h2>
         <p>${step.description}</p>
       </div>
+      ${renderFormulaBlock(step)}
       <svg viewBox="0 0 680 390" class="chart-svg" aria-label="${step.title} chart">
         <line x1="70" y1="330" x2="620" y2="330" class="axis"></line>
         <line x1="70" y1="45" x2="70" y2="330" class="axis"></line>
         <text x="350" y="368" class="chart-label" text-anchor="middle">${xLabel}</text>
         <text x="24" y="190" class="chart-label" text-anchor="middle" transform="rotate(-90 24 190)">${yLabel}</text>
+        ${shifted ? `
+          <line x1="175" y1="315" x2="545" y2="80" class="reference-line market-reference"></line>
+          <line x1="545" y1="315" x2="175" y2="80" class="reference-line market-reference"></line>
+          <circle cx="360" cy="197.5" r="7" class="reference-dot"></circle>
+          <text x="370" y="188" class="chart-label">E1</text>
+        ` : ""}
         <line x1="${175 + supplyShift}" y1="315" x2="${545 + supplyShift}" y2="80" class="model-line alt"></line>
         <line x1="${545 + demandShift}" y1="315" x2="${175 + demandShift}" y2="80" class="model-line"></line>
         <circle cx="${eqX}" cy="${eqY}" r="9" class="equilibrium-dot"></circle>
+        <text x="${eqX + 12}" y="${eqY - 10}" class="chart-label">${shifted ? "E2" : "E"}</text>
         <text x="${555 + supplyShift}" y="88" class="chart-label">S</text>
         <text x="${160 + demandShift}" y="88" class="chart-label">D</text>
       </svg>
+      ${step.showNetExports ? `
+        <div class="causal-chain" aria-label="Exchange rate to net exports causal chain">
+          <strong>${summary.causal.currency}</strong>
+          <span>→</span>
+          <strong>${summary.causal.exports}</strong>
+          <span>and</span>
+          <strong>${summary.causal.imports}</strong>
+          <span>→</span>
+          <strong>${summary.causal.netExports}</strong>
+          <span>→</span>
+          <strong>${summary.causal.ad}</strong>
+        </div>
+      ` : ""}
       ${renderMetrics(summary.metrics)}
     </section>
   `;
@@ -1942,14 +2077,14 @@ function flowSummary(step) {
     }
     case "bop": {
       const currentAccount = value("exports") - value("imports");
-      const financialAccount = -currentAccount;
-      const recordedCapitalInflow = value("capitalInflow");
-      const statisticalDiscrepancy = financialAccount - recordedCapitalInflow;
+      const financialAccount = value("financialInflows") - value("financialOutflows");
       const gap = currentAccount + financialAccount;
       return {
-        total: "Balanced",
-        metrics: [["Current Account", currentAccount], ["Financial Account", financialAccount], ["Statistical Adjustment", statisticalDiscrepancy], ["BOP Balance", gap]],
-        feedback: `经常账户为 ${formatNumber(currentAccount)}，金融账户自动作为抵消项为 ${formatNumber(financialAccount)}，所以 BOP Balance 保持为 0。调整项显示录入资本流入和理论平衡值的差。`
+        total: Math.abs(gap) < 0.5 ? "Balanced" : "Not balanced",
+        metrics: [["Current Account", currentAccount], ["Financial Account", financialAccount], ["BOP Balance", gap]],
+        feedback: Math.abs(gap) < 0.5
+          ? `经常账户 ${formatNumber(currentAccount)} 与金融账户 ${formatNumber(financialAccount)} 相互抵消，国际收支平衡。`
+          : `当前账户合计为 ${formatNumber(gap)}，尚未满足 CA + FA = 0。进口变化只改变经常账户；请独立调整金融流入或流出。`
       };
     }
     case "capital": {
@@ -2282,8 +2417,15 @@ function bindHomeAccordionEvents() {
 function assignMatch(itemId, categoryId) {
   const step = currentStep();
   const matches = matchesForStep(step);
-  matches[itemId] = categoryId;
-  state.selectedMatchItem = null;
+  if (step.answerMode === "multiple") {
+    const assigned = new Set(answerList(matches[itemId]));
+    if (assigned.has(categoryId)) assigned.delete(categoryId);
+    else assigned.add(categoryId);
+    matches[itemId] = [...assigned];
+  } else {
+    matches[itemId] = categoryId;
+    state.selectedMatchItem = null;
+  }
   applyClassificationSideEffects(step, itemId, categoryId);
   renderMainColumnOnly();
 }
@@ -2295,7 +2437,7 @@ function applyClassificationSideEffects(step, itemId, categoryId) {
   if (!shock) return;
 
   const correct = (step.items ?? []).find((item) => item.id === itemId)?.correct;
-  if (correct !== categoryId) return;
+  if (!answerList(correct).includes(categoryId)) return;
 
   state.values.supplyShift = shock.supplyShift;
   state.values.demandShift = shock.demandShift;
@@ -2315,24 +2457,26 @@ function drawMatchingLines() {
 
   const matches = matchesForStep(step);
   const categories = Object.fromEntries((step.categories ?? []).map((category) => [category.id, category]));
-  for (const [itemId, categoryId] of Object.entries(matches)) {
+  for (const [itemId, assigned] of Object.entries(matches)) {
     const item = board.querySelector(`[data-match-item="${itemId}"]`);
-    const target = board.querySelector(`[data-match-category="${categoryId}"]`);
-    if (!item || !target) continue;
+    for (const categoryId of answerList(assigned)) {
+      const target = board.querySelector(`[data-match-category="${categoryId}"]`);
+      if (!item || !target) continue;
 
-    const itemRect = item.getBoundingClientRect();
-    const targetRect = target.getBoundingClientRect();
-    const x1 = itemRect.right - boardRect.left;
-    const y1 = itemRect.top + itemRect.height / 2 - boardRect.top;
-    const x2 = targetRect.left - boardRect.left;
-    const y2 = targetRect.top + targetRect.height / 2 - boardRect.top;
-    const correct = item.dataset.correctCategory === categoryId;
-    const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    const mid = (x1 + x2) / 2;
-    line.setAttribute("d", `M ${x1} ${y1} C ${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}`);
-    line.setAttribute("class", `matching-line ${correct ? "is-correct" : "is-wrong"}`);
-    if (correct && categories[categoryId]?.color) line.setAttribute("style", `--match-color:${categories[categoryId].color}`);
-    svg.appendChild(line);
+      const itemRect = item.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      const x1 = itemRect.right - boardRect.left;
+      const y1 = itemRect.top + itemRect.height / 2 - boardRect.top;
+      const x2 = targetRect.left - boardRect.left;
+      const y2 = targetRect.top + targetRect.height / 2 - boardRect.top;
+      const correct = item.dataset.correctCategory.split("|").includes(categoryId);
+      const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      const mid = (x1 + x2) / 2;
+      line.setAttribute("d", `M ${x1} ${y1} C ${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}`);
+      line.setAttribute("class", `matching-line ${correct ? "is-correct" : "is-wrong"}`);
+      if (correct && categories[categoryId]?.color) line.setAttribute("style", `--match-color:${categories[categoryId].color}`);
+      svg.appendChild(line);
+    }
   }
 }
 
